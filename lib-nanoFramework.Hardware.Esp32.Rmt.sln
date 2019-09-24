@@ -5,6 +5,16 @@ VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "lib-nanoFramework.Hardware.Esp32.Rmt", "lib-nanoFramework.Hardware.Esp32.Rmt\lib-nanoFramework.Hardware.Esp32.Rmt.nfproj", "{D8B1966C-881F-48AB-A821-7B1F83303259}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{18F9F72B-94A6-4043-93DE-D781F703E308}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20F57A1F-AF70-401A-94F7-A2F940271F7D}"
+	ProjectSection(SolutionItems) = preProject
+		..\old\CODE_OF_CONDUCT.md = ..\old\CODE_OF_CONDUCT.md
+		..\old\CONTRIBUTING.md = ..\old\CONTRIBUTING.md
+		..\old\LICENSE = ..\old\LICENSE
+		..\old\README.md = ..\old\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +30,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D8B1966C-881F-48AB-A821-7B1F83303259} = {18F9F72B-94A6-4043-93DE-D781F703E308}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {749CA9BD-EE40-44A4-BFBA-54C2B1FF35FE}
