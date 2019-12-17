@@ -8,12 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{18F9F72B-94A6-4043-93DE-D781F703E308}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20F57A1F-AF70-401A-94F7-A2F940271F7D}"
-	ProjectSection(SolutionItems) = preProject
-		..\old\CODE_OF_CONDUCT.md = ..\old\CODE_OF_CONDUCT.md
-		..\old\CONTRIBUTING.md = ..\old\CONTRIBUTING.md
-		..\old\LICENSE = ..\old\LICENSE
-		..\old\README.md = ..\old\README.md
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
