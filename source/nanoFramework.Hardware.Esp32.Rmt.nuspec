@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>nanoFramework.Hardware.Esp32.Rmt</id>
+    <version>$version$</version>
+    <title>nanoFramework.Hardware.Esp32.Rmt</title>
+    <authors>nanoFramework project contributors</authors>
+    <owners>nanoFramework project contributors</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <releaseNotes>
+    </releaseNotes>
+    <developmentDependency>false</developmentDependency>
+    <projectUrl>https://github.com/nanoframework/lib-Windows.Storage.Streams</projectUrl>
+    <iconUrl>https://secure.gravatar.com/avatar/97d0e092247f0716db6d4b47b7d1d1ad</iconUrl>
+    <repository type="git" url="https://github.com/nanoframework/lib-Windows.Storage.Streams" commit="$commit$" />
+    <copyright>Copyright (c) 2018 The nanoFramework project contributors</copyright>
+    <description>This package includes the nanoFramework.Hardware.Esp32.Rmt assembly for nanoFramework C# projects.</description>
+    <summary>Windows.Storage.Streams assembly for nanoFramework C# projects</summary>
+    <tags>nanoFramework C# csharp netmf netnf Windows.Storage.Streams</tags>
+    <dependencies>
+      <dependency id="nanoFramework.CoreLibrary" version="1.6.0-preview.1" />
+      <dependency id="nanoFramework.System.Text" version="1.0.0-preview.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.dll" target="lib\Windows.Storage.Streams.dll" />
+    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.pdb" target="lib\Windows.Storage.Streams.pdb" />
+    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.pdbx" target="lib\Windows.Storage.Streams.pdbx" />
+    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.pe" target="lib\Windows.Storage.Streams.pe" />
+    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.xml" target="lib\Windows.Storage.Streams.xml" />
+    <!-- readme -->
+    <file src="readme.txt" target="readme.txt" />
+  </files>
+</package>

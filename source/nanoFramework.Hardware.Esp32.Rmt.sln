@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "lib-nanoFramework.Hardware.Esp32.Rmt", "lib-nanoFramework.Hardware.Esp32.Rmt\lib-nanoFramework.Hardware.Esp32.Rmt.nfproj", "{D8B1966C-881F-48AB-A821-7B1F83303259}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.Hardware.Esp32.Rmt", "nanoFramework.Hardware.Esp32.Rmt\nanoFramework.Hardware.Esp32.Rmt.nfproj", "{D8B1966C-881F-48AB-A821-7B1F83303259}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{18F9F72B-94A6-4043-93DE-D781F703E308}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20F57A1F-AF70-401A-94F7-A2F940271F7D}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.Config = NuGet.Config
+		version.json = version.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
