@@ -52,6 +52,7 @@
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RmtCommand.cs" />
     <Compile Include="TransmitterChannel.cs" />
@@ -72,7 +73,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="key.snk" />
   </ItemGroup>

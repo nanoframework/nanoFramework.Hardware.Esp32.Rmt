@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
+    /// <summary>
+    /// A class that can be used to create nad transmit RMT commands on ESP32
+    /// </summary>
     public class TransmitterChannel : IDisposable
     {
         #region Fields
@@ -11,14 +14,14 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// The largest channel number. Channel numbers start at 0.
         /// </summary>
-        public const byte MaxChannelNumber = NumberRmtChannels - 1;
+        private const byte _MaxChannelNumber = _NumberRmtChannels - 1;
 
         /// <summary>
         /// The number of RMT channels available.
         /// </summary>
-        public const byte NumberRmtChannels = 8;
+        private const byte _NumberRmtChannels = 8;
 
-        private ArrayList commands = new ArrayList();
+        private ArrayList _commands = new ArrayList();
 
         #endregion Fields
 
@@ -73,6 +76,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
         private int _channel;
 
+        /// <summary>
+        /// The channel number we are using
+        /// </summary>
         public int Channel
         {
             get
@@ -92,7 +98,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="cmd">RmtCommand</param>
         public void AddCommand(RmtCommand cmd)
         {
-            commands.Add(cmd);
+            _commands.Add(cmd);
         }
 
         /// <summary>
@@ -104,21 +110,28 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         {
             get
             {
-                if (commands.Count < i + 1)
+                if (_commands.Count < i + 1)
+                {
                     throw new IndexOutOfRangeException();
+                }
 
-                var res = commands[i];
+                var res = _commands[i];
                 return (RmtCommand)res;
             }
             set
             {
-                if (commands.Count < i + 1)
+                if (_commands.Count < i + 1)
+                {
                     throw new IndexOutOfRangeException();
+                }
 
-                commands[i] = value;
+                _commands[i] = value;
             }
         }
 
+        /// <summary>
+        /// The value can be between 1 and 255
+        /// </summary>
         public byte ClockDivider
         {
             get
@@ -127,9 +140,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             }
             set
             {
-                if (value == 0)
+                if (value < 1 || value > 255)
                 {
-                    throw new ArgumentOutOfRangeException("ClockDivider", "Must be in the range 1..255");
+                    throw new ArgumentOutOfRangeException();
                 }
                 NativeSetClockDivider(Channel, value);
             }
@@ -170,7 +183,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         //    {
         //        if (value > (NumberRmtChannels - Channel))
         //        {
-        //            throw new ArgumentOutOfRangeException("MemoryBlockNumber", "");
+        //            throw new ArgumentOutOfRangeException();
         //        }
         //        NativeSetMemoryBlockNumber(Channel, value);
         //    }
@@ -189,9 +202,13 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             set
             {
                 if (value == SourceClockTypes.APB)
+                {
                     NativeSetSourceClock(Channel, true);
+                }
                 else
+                {
                     throw new NotSupportedException();
+                }
             }
         }
 
@@ -270,33 +287,33 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         {
             int i = 0;
             int remaining;
-            byte[] binaryCommands = new byte[commands.Count * 4];
-            foreach(var cmd in commands)
+            byte[] binaryCommands = new byte[_commands.Count * 4];
+            foreach(var cmd in _commands)
             {
                 //First pair
                 if ((cmd as RmtCommand).Duration0 <= 255)
                 {
                     binaryCommands[0 + i] = (byte)(cmd as RmtCommand).Duration0;
-                    binaryCommands[1 + i] = (byte)((cmd as RmtCommand).level0 == true ? 128 : 0);
+                    binaryCommands[1 + i] = (byte)((cmd as RmtCommand).Level0 == true ? 128 : 0);
                 }
                 else
                 {
                     remaining = (cmd as RmtCommand).Duration0 % 256;
                     binaryCommands[0 + i] = (byte)(remaining);
-                    binaryCommands[1 + i] = (byte)(((cmd as RmtCommand).level0 == true ? 128 : 0) + (((cmd as RmtCommand).Duration0 - remaining) / 256));
+                    binaryCommands[1 + i] = (byte)(((cmd as RmtCommand).Level0 == true ? 128 : 0) + (((cmd as RmtCommand).Duration0 - remaining) / 256));
                 }
 
                 //Second pair
                 if ((cmd as RmtCommand).Duration1 <= 255)
                 {
                     binaryCommands[2 + i] = (byte)(cmd as RmtCommand).Duration1;
-                    binaryCommands[3 + i] = (byte)((cmd as RmtCommand).level1 == true ? 128 : 0);
+                    binaryCommands[3 + i] = (byte)((cmd as RmtCommand).Level1 == true ? 128 : 0);
                 }
                 else
                 {
                     remaining = (cmd as RmtCommand).Duration1 % 256;
                     binaryCommands[2 + i] = (byte)(remaining);
-                    binaryCommands[3 + i] = (byte)(((cmd as RmtCommand).level1 == true ? 128 : 0) + (((cmd as RmtCommand).Duration1 - remaining) / 256));
+                    binaryCommands[3 + i] = (byte)(((cmd as RmtCommand).Level1 == true ? 128 : 0) + (((cmd as RmtCommand).Duration1 - remaining) / 256));
                 }
                 i += 4;
             }
@@ -307,12 +324,16 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
         #region Constructor
 
+        /// <summary>
+        /// Public constructor to create Transmitter object
+        /// </summary>
+        /// <param name="gpio">The gpio pin number that we want to use for transmitting</param>
         public TransmitterChannel(int gpio)
         {
             int ch = NativeInit(gpio);
             if (ch < 0)
             {
-                throw new NotSupportedException($"No available RMT channels, or can't connect co pin ${gpio}");
+                throw new NotSupportedException();
             }
             Channel = ch;
             ConfigureCarrier();
@@ -400,14 +421,5 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private static extern void NativeSetSourceClock(int channel, bool value);
 
         #endregion Stubs
-    }
-
-    /// <summary>
-    /// Enum for source Clock types
-    /// </summary>
-    public enum SourceClockTypes
-    {
-        APB, // 80MHz, currently ESP32 only supported
-        REF //Not Supported
     }
 }
