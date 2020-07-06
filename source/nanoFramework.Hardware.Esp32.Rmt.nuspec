@@ -11,24 +11,25 @@
     <releaseNotes>
     </releaseNotes>
     <developmentDependency>false</developmentDependency>
-    <projectUrl>https://github.com/nanoframework/lib-Windows.Storage.Streams</projectUrl>
+    <projectUrl>https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt</projectUrl>
     <iconUrl>https://secure.gravatar.com/avatar/97d0e092247f0716db6d4b47b7d1d1ad</iconUrl>
-    <repository type="git" url="https://github.com/nanoframework/lib-Windows.Storage.Streams" commit="$commit$" />
+    <repository type="git" url="https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt" commit="$commit$" />
     <copyright>Copyright (c) 2018 The nanoFramework project contributors</copyright>
     <description>This package includes the nanoFramework.Hardware.Esp32.Rmt assembly for nanoFramework C# projects.</description>
-    <summary>Windows.Storage.Streams assembly for nanoFramework C# projects</summary>
-    <tags>nanoFramework C# csharp netmf netnf Windows.Storage.Streams</tags>
+    <summary>nanoFramework.Hardware.Esp32.Rmt assembly for nanoFramework C# projects</summary>
+    <tags>nanoFramework C# csharp netmf netnf nanoFramework.Hardware.Esp32.Rmt</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.6.0-preview.1" />
-      <dependency id="nanoFramework.System.Text" version="1.0.0-preview.1" />
+      <dependency id="nanoFramework.CoreLibrary" version="1.7.3" />
+      <dependency id="nanoFramework.Runtime.Events" version="1.8.0" />
+      <dependency id="nanoFramework.Windows.Devices.Gpio" version="1.5.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.dll" target="lib\Windows.Storage.Streams.dll" />
-    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.pdb" target="lib\Windows.Storage.Streams.pdb" />
-    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.pdbx" target="lib\Windows.Storage.Streams.pdbx" />
-    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.pe" target="lib\Windows.Storage.Streams.pe" />
-    <file src="Windows.Storage.Streams\bin\Release\Windows.Storage.Streams.xml" target="lib\Windows.Storage.Streams.xml" />
+    <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.dll" target="lib\nanoFramework.Hardware.Esp32.Rmt.dll" />
+    <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.pdb" target="lib\nanoFramework.Hardware.Esp32.Rmt.pdb" />
+    <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.pdbx" target="lib\nanoFramework.Hardware.Esp32.Rmt.pdbx" />
+    <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.pe" target="lib\nanoFramework.Hardware.Esp32.Rmt.pe" />
+    <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.xml" target="lib\nanoFramework.Hardware.Esp32.Rmt.xml" />
     <!-- readme -->
     <file src="readme.txt" target="readme.txt" />
   </files>
