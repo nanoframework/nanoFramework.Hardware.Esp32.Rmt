@@ -34,7 +34,7 @@ steps:
 # all build, update and publish steps
 - template: azure-pipelines-templates/class-lib-build.yml@templates
   parameters:
-    sonarCloudProject: 'nanoframework_lib-Hardware.Esp32.Rmt'
+    sonarCloudProject: 'nanoframework_lib-nanoFramework.Hardware.Esp32.Rmt'
 
 # step from template @ nf-tools repo
 # report error
