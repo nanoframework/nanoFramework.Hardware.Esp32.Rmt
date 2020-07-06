@@ -2,7 +2,7 @@ trigger:
   branches:
     include: [master, develop, "release-*" ]
   paths:
-    exclude: ["*.md", .gitignore]
+    exclude: ["*.md", .gitignore, ".github/workflows/*"]
   tags:
     include: ["v*"]
 
