@@ -18,17 +18,17 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Command duration 1
         /// </summary>
-        private UInt16 _duration0 = 1;
+        private ushort _duration0 = 1;
 
         /// <summary>
         /// Command duration 2
         /// </summary>
-        private UInt16 _duration1 = 0;
+        private ushort _duration1 = 0;
         
         /// <summary>
         /// Max value of rmt_item32_t::durationX (15 bit unsigned value)
         /// </summary>
-        private const UInt16 MaxDuration = 32767;
+        private const ushort MaxDuration = 32767;
 
         /// <summary>
         /// Create new rmt command
@@ -37,7 +37,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="level1"></param>
         /// <param name="duration2"></param>
         /// <param name="level2"></param>
-        public RmtCommand(UInt16 duration1, bool level1, UInt16 duration2, bool level2)
+        public RmtCommand(ushort duration1, bool level1, ushort duration2, bool level2)
         {
             Duration0 = duration1;
             Duration1 = duration2;
@@ -49,7 +49,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
 		/// Level1 duration in RMT chanel ticks
 		/// </summary>
-		public UInt16 Duration0
+		public ushort Duration0
         {
             get => _duration0;
             set
@@ -62,7 +62,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Level2 duration in RMT chanel ticks
         /// </summary>
-        public UInt16 Duration1
+        public ushort Duration1
         {
             get => _duration1;
             set
@@ -101,7 +101,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Check if the given duration exceeds max duration, Maximum supported duration is 32768
         /// </summary>
         /// <param name="duration"></param>
-        private static void CheckDuration(UInt16 duration)
+        private static void CheckDuration(ushort duration)
         {
             if (duration > MaxDuration)
             {
