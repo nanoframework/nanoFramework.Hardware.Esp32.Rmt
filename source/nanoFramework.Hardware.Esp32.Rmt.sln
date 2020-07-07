@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		version.json = version.json
 	EndProjectSection
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "lib-nanoFramework.Hardware.Esp32.Rmt", "nanoFramework.Hardware.Esp32.Rmt\lib-nanoFramework.Hardware.Esp32.Rmt.nfproj", "{D8B1966C-881F-48AB-A821-7B1F83303259}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.Hardware.Esp32.Rmt", "nanoFramework.Hardware.Esp32.Rmt\nanoFramework.Hardware.Esp32.Rmt.nfproj", "{D8B1966C-881F-48AB-A821-7B1F83303259}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
