@@ -6,6 +6,7 @@
 
 **Documentation and other chores:**
 
+- Update dependencies [\#7](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/pull/7)
 - Update dependencies [\#6](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/pull/6)
 
 ## [v1.0.2](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/tree/v1.0.2) (2020-09-19)
