@@ -14,14 +14,14 @@
     <projectUrl>https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt</projectUrl>
     <iconUrl>https://secure.gravatar.com/avatar/97d0e092247f0716db6d4b47b7d1d1ad</iconUrl>
     <repository type="git" url="https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt" commit="$commit$" />
-    <copyright>Copyright (c) 2018 The nanoFramework project contributors</copyright>
+    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
     <description>This package includes the nanoFramework.Hardware.Esp32.Rmt assembly for nanoFramework C# projects.</description>
     <summary>nanoFramework.Hardware.Esp32.Rmt assembly for nanoFramework C# projects</summary>
     <tags>nanoFramework C# csharp netmf netnf nanoFramework.Hardware.Esp32.Rmt</tags>
     <dependencies>
       <dependency id="nanoFramework.CoreLibrary" version="1.8.0-preview.6" />
-      <dependency id="nanoFramework.Runtime.Events" version="1.8.1-preview.22" />
-      <dependency id="nanoFramework.Windows.Devices.Gpio" version="1.5.1-preview.4" />
+      <dependency id="nanoFramework.Runtime.Events" version="1.8.2-preview.1" />
+      <dependency id="nanoFramework.Windows.Devices.Gpio" version="1.5.2-preview.4" />
     </dependencies>
   </metadata>
   <files>
