@@ -8,6 +8,9 @@ using System;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
+    /// <summary>
+    /// Class to encapsulate a RMT item
+    /// </summary>
     public class RmtCommand
     {
         /// <summary>
@@ -29,7 +32,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Command duration 2
         /// </summary>
         private ushort _duration1 = 0;
-        
+
         /// <summary>
         /// Max value of rmt_item32_t::durationX (15 bit unsigned value)
         /// </summary>
@@ -52,9 +55,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
 
         /// <summary>
-		/// Level1 duration in RMT chanel ticks
-		/// </summary>
-		public ushort Duration0
+        /// Level1 duration in RMT channel ticks
+        /// </summary>
+        public ushort Duration0
         {
             get => _duration0;
             set
@@ -65,7 +68,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Level2 duration in RMT chanel ticks
+        /// Level2 duration in RMT channel ticks
         /// </summary>
         public ushort Duration1
         {

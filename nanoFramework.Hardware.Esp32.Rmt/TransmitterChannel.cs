@@ -10,14 +10,11 @@ using System.Runtime.CompilerServices;
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
     /// <summary>
-    /// A class that can be used to create nad transmit RMT commands on ESP32
+    /// A class that can be used to create and transmit RMT commands on ESP32
     /// </summary>
-    public class TransmitterChannel : IDisposable
+    public class TransmitterChannel : RmtChannel, IDisposable
     {
         #region Fields
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private int _channel;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private bool _carrierEnabled = false;
@@ -31,21 +28,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private bool _carrierLevel = false;
 
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private byte _clockDivider;
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private SourceClock _sourceClock = SourceClock.APB;
-
-        /// <summary>
-        /// The largest channel number. Channel numbers start at 0.
-        /// </summary>
-        private const byte _MaxChannelNumber = _NumberRmtChannels - 1;
-
-        /// <summary>
-        /// The number of RMT channels available.
-        /// </summary>
-        private const byte _NumberRmtChannels = 8;
 
         private readonly ArrayList _commands = new ArrayList();
 
@@ -54,74 +36,43 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         #region Properties
 
         /// <summary>
-        /// The channel number we are using
+        /// Add new RMT command to the list of commands that will be sent
         /// </summary>
-        public int Channel
-        {
-            get
-            {
-                return _channel;
-            }
-
-            private set
-            {                
-                _channel = value;
-            }
-        }
-
-        /// <summary>
-        /// Add new rmt command to the list of commands that will be send
-        /// </summary>
-        /// <param name="cmd">RmtCommand</param>
+        /// <param name="cmd">RmtCommand to Add</param>
         public void AddCommand(RmtCommand cmd)
         {
             _commands.Add(cmd);
         }
 
         /// <summary>
-        /// Access any of the commands from the list that will be send
+        /// Access a command from the array of commands that will be sent
         /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        public RmtCommand this[int i]
+        /// <param name="index">Index into RMTCommand array</param>
+        /// <returns>RMT command from index</returns>
+        public RmtCommand this[int index]
         {
             get
             {
-                if (_commands.Count < i + 1)
+                if (_commands.Count < index + 1)
                 {
 #pragma warning disable S112 // OK to throw this here
                     throw new IndexOutOfRangeException();
 #pragma warning restore S112 // General exceptions should never be thrown
                 }
 
-                var res = _commands[i];
+                var res = _commands[index];
                 return (RmtCommand)res;
             }
             set
             {
-                if (_commands.Count < i + 1)
+                if (_commands.Count < index + 1)
                 {
 #pragma warning disable S112 // OK to throw this here
                     throw new IndexOutOfRangeException();
 #pragma warning restore S112 // General exceptions should never be thrown
                 }
 
-                _commands[i] = value;
-            }
-        }
-
-        /// <summary>
-        /// The value can be between 1 and 255
-        /// </summary>
-        public byte ClockDivider
-        {
-            get
-            {
-                return _clockDivider;
-            }
-            set
-            {
-                _clockDivider = value;
+                _commands[index] = value;
             }
         }
 
@@ -166,21 +117,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         //    }
         //}
 
-        /// <summary>
-        /// The source clock. Only the 80MHz APB clock is currently supported.
-        /// </summary>
-        public SourceClock SourceClock
-        {
-            get
-            {
-                return _sourceClock;
-            }
-
-            set
-            {
-                _sourceClock = value;
-            }
-        }
 
         //public ChannelStatus Status
         //{
@@ -277,7 +213,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             int i = 0;
             int remaining;
             byte[] binaryCommands = new byte[_commands.Count * 4];
-            foreach(var cmd in _commands)
+            foreach (var cmd in _commands)
             {
                 //First pair
                 if ((cmd as RmtCommand).Duration0 <= 255)
@@ -316,7 +252,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Public constructor to create Transmitter object
         /// </summary>
-        /// <param name="gpio">The gpio pin number that we want to use for transmitting</param>
+        /// <param name="gpio">The GPIO pin number that we want to use for transmitting</param>
         public TransmitterChannel(int gpio)
         {
             NativeInit(gpio);
@@ -373,9 +309,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         //private uint Stop() => NativeTxStop(Channel);
 
         /// <summary>
-        /// Send the filled rmt commands to the transmitter
+        /// Send the filled RMT commands to the transmitter
         /// </summary>
-        /// <param name="waitTxDone">If true wait the tx process to end, false function returns without waiting, but if another comand is send before the end of the previouse process an an error will ocure.</param>
+        /// <param name="waitTxDone">If true wait the TX process to end, false function returns without waiting, but if another command is send before the end of the previous process an error will occur.</param>
         public void Send(bool waitTxDone) => SendData(SerializeCommands(), waitTxDone);
 
         /// <summary>
@@ -395,64 +331,58 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         #region native calls
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern void NativeInit(int gpio);
+        private extern void NativeInit(int gpio);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern bool NativeGetIdleLevel();
+        private extern bool NativeGetIdleLevel();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern bool NativeGetIsChannelIdle();
+        private extern bool NativeGetIsChannelIdle();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern void NativeSetIsChannelIdle(bool value);
+        private extern void NativeSetIsChannelIdle(bool value);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern void NativeSetIdleLevel(bool value);
+        private extern void NativeSetIdleLevel(bool value);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern void NativeSetCarrierMode();
+        private extern void NativeSetCarrierMode();
 
         //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern uint NativeTxFillItems(int channel, RmtItem[] items, ushort offset);
+        //private extern uint NativeTxFillItems(int channel, RmtItem[] items, ushort offset);
 
         //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern uint NativeTxStart(int channel, bool resetIndex);
+        //private extern uint NativeTxStart(int channel, bool resetIndex);
 
         //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern uint NativeTxStop(int channel);
+        //private extern uint NativeTxStop(int channel);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern uint NativeWriteItems(byte[] items, bool waitTxDone);
+        private extern uint NativeWriteItems(byte[] items, bool waitTxDone);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern uint NativeWaitTxDone(int waitType);
+        private extern uint NativeWaitTxDone(int waitType);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern void NativeDispose();
+        private extern void NativeDispose();
 
         //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern int NativeGetChannelStatus(int channel);
+        //private extern int NativeGetChannelStatus(int channel);
+
+        //[MethodImpl(MethodImplOptions.InternalCall)]
+        //private extern byte NativeGetMemoryBlockNumber(int channel);
+
+        //[MethodImpl(MethodImplOptions.InternalCall)]
+        //private extern bool NativeGetMemoryLowPower(int channel);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern byte NativeGetClockDivider();
+        private extern bool NativeGetSourceClock();
 
         //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern byte NativeGetMemoryBlockNumber(int channel);
+        //private extern void NativeSetMemoryBlockNumber(int channel, byte value);
 
         //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern bool NativeGetMemoryLowPower(int channel);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern bool NativeGetSourceClock();
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern void NativeSetClockDivider(byte value);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern void NativeSetMemoryBlockNumber(int channel, byte value);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private static extern void NativeSetMemoryLowPower(int channel, bool value);
+        //private extern void NativeSetMemoryLowPower(int channel, bool value);
 
         #endregion Stubs
     }
