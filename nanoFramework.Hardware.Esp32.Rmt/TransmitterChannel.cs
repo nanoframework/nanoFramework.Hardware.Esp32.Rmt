@@ -309,9 +309,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         //private uint Stop() => NativeTxStop(Channel);
 
         /// <summary>
-        /// Send the filled rmt commands to the transmitter
+        /// Send the filled RMT commands to the transmitter
         /// </summary>
-        /// <param name="waitTxDone">If true wait the tx process to end, false function returns without waiting, but if another comand is send before the end of the previouse process an an error will ocure.</param>
+        /// <param name="waitTxDone">If true wait the TX process to end, false function returns without waiting, but if another command is send before the end of the previous process an error will occur.</param>
         public void Send(bool waitTxDone) => SendData(SerializeCommands(), waitTxDone);
 
         /// <summary>
