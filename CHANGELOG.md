@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/compare/v1.0.2...HEAD)
+[Full Changelog](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/compare/v1.0.11...HEAD)
+
+**Implemented enhancements:**
+
+- Add ReceiverChannel [\#5](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/pull/5)
+
+## [v1.0.11](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/tree/v1.0.11) (2020-09-28)
+
+[Full Changelog](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/compare/v1.0.2...v1.0.11)
 
 **Documentation and other chores:**
 
@@ -12,10 +20,6 @@
 ## [v1.0.2](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/tree/v1.0.2) (2020-09-19)
 
 [Full Changelog](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/compare/v1.0.9...v1.0.2)
-
-**Documentation and other chores:**
-
-- Update dependencies [\#4](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/pull/4)
 
 ## [v1.0.9](https://github.com/nanoframework/lib-nanoFramework.Hardware.Esp32.Rmt/tree/v1.0.9) (2020-07-07)
 
