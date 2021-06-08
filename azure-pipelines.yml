@@ -24,9 +24,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  classLibName: 'nanoFramework.Hardware.Esp32.Rmt'
   nugetPackageName: 'nanoFramework.Hardware.Esp32.Rmt'
-  repoName: 'nanoFramework.Hardware.Esp32.Rmt'
 
 steps:
 
