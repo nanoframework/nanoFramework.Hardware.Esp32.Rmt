@@ -21,7 +21,7 @@ pool:
 
 variables:
   DOTNET_NOLOGO: true
-  solution: '**/*.sln'
+  solution: 'nanoFramework.Hardware.Esp32.Rmt.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   nugetPackageName: 'nanoFramework.Hardware.Esp32.Rmt'
