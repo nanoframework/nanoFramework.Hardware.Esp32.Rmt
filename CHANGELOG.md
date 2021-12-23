@@ -1,6 +1,8 @@
 # Changelog
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.1-preview.12...HEAD)
+## [v1.2.1-preview.14](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.1-preview.14) (2021-12-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.1-preview.12...v1.2.1-preview.14)
 
 **Documentation and other chores:**
 
@@ -43,6 +45,8 @@
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.0-preview.6...v1.2.0)
 
 ## [v1.2.0-preview.6](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.0-preview.6) (2021-07-14)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.0-preview.4...v1.2.0-preview.6)
 
 **Documentation and other chores:**
 
