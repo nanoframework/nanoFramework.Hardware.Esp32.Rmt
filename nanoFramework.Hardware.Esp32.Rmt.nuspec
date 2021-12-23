@@ -5,14 +5,14 @@
     <version>$version$</version>
     <title>nanoFramework.Hardware.Esp32.Rmt</title>
     <authors>nanoFramework project contributors</authors>
-    <owners>nanoFramework project contributors,dotnetfoundation</owners>
+    <owners>nanoFramework,dotnetfoundation</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="file">LICENSE.md</license>
     <releaseNotes>
     </releaseNotes>
+    <readme>docs\README.md</readme>
     <developmentDependency>false</developmentDependency>
     <projectUrl>https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt</projectUrl>
-    <iconUrl>https://secure.gravatar.com/avatar/97d0e092247f0716db6d4b47b7d1d1ad</iconUrl>
     <icon>images\nf-logo.png</icon>
     <repository type="git" url="https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt" commit="$commit$" />
     <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
@@ -20,8 +20,8 @@
 This package requires a target with nanoFramework.Hardware.Esp32.Rmt v$nativeVersion$ (checksum $checksum$).</description>
     <tags>nanoFramework C# csharp netmf netnf nanoFramework.Hardware.Esp32.Rmt</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.10.5" />
-      <dependency id="nanoFramework.Runtime.Events" version="1.9.1" />
+      <dependency id="nanoFramework.CoreLibrary" version="1.11.7" />
+      <dependency id="nanoFramework.Runtime.Events" version="1.9.2" />
     </dependencies>
   </metadata>
   <files>
@@ -31,6 +31,7 @@ This package requires a target with nanoFramework.Hardware.Esp32.Rmt v$nativeVer
     <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.pe" target="lib\nanoFramework.Hardware.Esp32.Rmt.pe" />
     <file src="nanoFramework.Hardware.Esp32.Rmt\bin\Release\nanoFramework.Hardware.Esp32.Rmt.xml" target="lib\nanoFramework.Hardware.Esp32.Rmt.xml" />
     <file src="assets\readme.txt" target="" />
+    <file src="README.md" target="docs\" />
     <file src="assets\nf-logo.png" target="images" />
     <file src="LICENSE.md" target="" />
   </files>
