@@ -10,8 +10,7 @@
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| nanoFramework.Hardware.Esp32.Rmt | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/_apis/build/status/nanoframework.lib-nanoFramework.Hardware.Esp32.Rmt?branchName=main)](https://dev.azure.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/_build/latest?definitionId=49&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Hardware.Esp32.Rmt.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Hardware.Esp32.Rmt/) |
-| nanoFramework.Hardware.Esp32.Rmt (preview) | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/_apis/build/status/nanoframework.lib-nanoFramework.Hardware.Esp32.Rmt?branchName=develop)](https://dev.azure.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/_build/latest?definitionId=49&branchName=develop) | [![NuGet](https://img.shields.io/nuget/vpre/nanoFramework.Hardware.Esp32.Rmt.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Hardware.Esp32.Rmt/) |
+| nanoFramework.Hardware.Esp32.Rmt | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/_apis/build/status/nanoFramework.Hardware.Esp32.Rmt?repoName=nanoframework%2FnanoFramework.Hardware.Esp32.Rmt&branchName=main)](https://dev.azure.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/_build/latest?definitionId=49&repoName=nanoframework%2FnanoFramework.Hardware.Esp32.Rmt&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Hardware.Esp32.Rmt.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Hardware.Esp32.Rmt/) |
 
 ## Feedback and documentation
 
