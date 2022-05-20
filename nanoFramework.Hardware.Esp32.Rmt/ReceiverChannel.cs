@@ -6,7 +6,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
     /// <summary>
@@ -68,7 +67,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="threshold">Pulse width to ignore expressed in number of source clock cycles,
         /// Value between 1-255</param>
 
-        public void EnableFilter(bool enable, Byte threshold)
+        public void EnableFilter(bool enable, byte threshold)
         {
             NativeRxEnableFilter(enable, threshold);
         }
@@ -79,7 +78,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <Remarks>
         /// The receive process finishes(goes idle) when no edges have been detected for Idle Threshold clock cycles.</Remarks>
         /// <param name="threshold">Value between 1 and 65535 (0xFFFF)</param>
-        public void SetIdleThresold(UInt16 threshold)
+        public void SetIdleThresold(ushort threshold)
         {
             if (threshold == 0)
             {
@@ -100,6 +99,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         {
             return NativeRxGetAllItems();
         }
+
         #region Destructor
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -137,15 +137,14 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private extern RmtCommand[] NativeRxGetAllItems();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeRxEnableFilter(bool enable, Byte threshold);
+        private extern void NativeRxEnableFilter(bool enable, byte threshold);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeRxSetIdleThresold(UInt16 threshold);
+        private extern void NativeRxSetIdleThresold(ushort threshold);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeRxDispose();
 
         #endregion  Native calls
     }
-
 }

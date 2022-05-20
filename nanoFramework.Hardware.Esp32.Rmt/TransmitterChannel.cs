@@ -28,21 +28,11 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private bool _carrierLevel = false;
 
-
         private readonly ArrayList _commands = new ArrayList();
 
         #endregion Fields
 
         #region Properties
-
-        /// <summary>
-        /// Add new RMT command to the list of commands that will be sent
-        /// </summary>
-        /// <param name="cmd">RmtCommand to Add</param>
-        public void AddCommand(RmtCommand cmd)
-        {
-            _commands.Add(cmd);
-        }
 
         /// <summary>
         /// Access a command from the array of commands that will be sent
@@ -63,6 +53,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
                 var res = _commands[index];
                 return (RmtCommand)res;
             }
+
             set
             {
                 if (_commands.Count < index + 1)
@@ -132,6 +123,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public bool CarrierEnabled
         {
             get => _carrierEnabled;
+
             set
             {
                 _carrierEnabled = value;
@@ -165,6 +157,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public ushort CarrierHighDuration
         {
             get => _carrierHighDuration;
+
             set
             {
                 _carrierHighDuration = value;
@@ -180,6 +173,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public ushort CarrierLowDuration
         {
             get => _carrierLowDuration;
+
             set
             {
                 _carrierLowDuration = value;
@@ -195,6 +189,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public bool CarrierLevel
         {
             get => _carrierLevel;
+
             set
             {
                 _carrierLevel = value;
@@ -332,6 +327,15 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public void ClearCommands()
         {
             _commands.Clear();
+        }
+
+        /// <summary>
+        /// Add new RMT command to the list of commands that will be sent
+        /// </summary>
+        /// <param name="cmd">RmtCommand to Add</param>
+        public void AddCommand(RmtCommand cmd)
+        {
+            _commands.Add(cmd);
         }
 
         #endregion Methods
