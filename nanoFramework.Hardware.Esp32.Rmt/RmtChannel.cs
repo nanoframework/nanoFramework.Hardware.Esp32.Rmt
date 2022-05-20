@@ -3,8 +3,6 @@
 // See LICENSE file in the project root for full license information.
 //
 
-using System;
-using System.Collections;
 using System.Runtime.CompilerServices;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
@@ -83,6 +81,5 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private extern void NativeSetClockDivider(byte value);
 
         #endregion native calls
-
     }
 }

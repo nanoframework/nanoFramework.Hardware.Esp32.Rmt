@@ -5,7 +5,6 @@
 
 using System;
 
-
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
     /// <summary>
@@ -116,6 +115,5 @@ namespace nanoFramework.Hardware.Esp32.Rmt
                 throw new ArgumentOutOfRangeException();
             }
         }
-
     }
 }
