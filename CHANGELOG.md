@@ -1,5 +1,21 @@
 # Changelog
 
+## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/HEAD)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.2...HEAD)
+
+**Implemented enhancements:**
+
+- Add method to clear command list from Tx channel [\#48](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/pull/48)
+
+## [v1.2.2](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.2) (2022-03-29)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.2-preview.12...v1.2.2)
+
+**Documentation and other chores:**
+
+- release-v1.2.2 [\#47](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/pull/47)
+
 ## [v1.2.2-preview.12](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.2-preview.12) (2022-03-29)
 
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.2-preview.10...v1.2.2-preview.12)
@@ -60,6 +76,10 @@
 
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.1-preview.14...v1.2.1)
 
+**Documentation and other chores:**
+
+- release-v1.2.1 [\#38](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/pull/38)
+
 ## [v1.2.1-preview.14](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.1-preview.14) (2021-12-03)
 
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.1-preview.12...v1.2.1-preview.14)
@@ -103,6 +123,10 @@
 ## [v1.2.0](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.0) (2021-07-15)
 
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.2.0-preview.6...v1.2.0)
+
+**Documentation and other chores:**
+
+- release-v1.2.0 [\#31](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/pull/31)
 
 ## [v1.2.0-preview.6](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.2.0-preview.6) (2021-07-14)
 
