@@ -326,6 +326,14 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private uint WaitTxDone(int waitTime) =>
             NativeWaitTxDone(waitTime);
 
+        /// <summary>
+        /// Clear list of commands.
+        /// </summary>
+        public void ClearCommands()
+        {
+            _commands.Clear();
+        }
+
         #endregion Methods
 
         #region native calls
