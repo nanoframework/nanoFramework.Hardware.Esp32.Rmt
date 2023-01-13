@@ -89,7 +89,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Initializes a new instance of the <see cref="RmtChannelSettings"/> class.
         /// </summary>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
-        public RmtChannelSettings(int pinNumber)
+        protected RmtChannelSettings(int pinNumber)
             : this(channel: -1, pinNumber)
         {
         }
@@ -100,7 +100,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="channel">The channel number to use. Valid value range is 0 to 7 (inclusive).</param>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
-        public RmtChannelSettings(int channel, int pinNumber)
+        protected RmtChannelSettings(int channel, int pinNumber)
         {
             this.Channel = channel <= 7
                 ? channel
