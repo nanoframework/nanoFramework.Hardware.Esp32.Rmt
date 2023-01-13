@@ -35,7 +35,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             set
             {
                 if (value == 0)
+                {
                     throw new ArgumentOutOfRangeException();
+                }
 
                 _idleThreshold = value;
             }
@@ -45,17 +47,29 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Gets or sets the filter state. 
         /// If enabled, the receiver will ignore pulses with widths less than specified in <see cref="FilterThreshold"/>.
         /// </summary>
-        public bool EnableFilter { get => _enableFilter; set => _enableFilter = value; }
+        public bool EnableFilter 
+        { 
+            get => _enableFilter; 
+            set => _enableFilter = value;
+        }
 
         /// <summary>
         /// Gets or sets the threshold for pulse widths to ignore when <see cref="EnableFilter"/> is set to <see langword="true"/>.
         /// </summary>
-        public byte FilterThreshold { get => _filterThreshold; set => _filterThreshold = value; }
+        public byte FilterThreshold 
+        { 
+            get => _filterThreshold; 
+            set => _filterThreshold = value;
+        }
 
         /// <summary>
         /// Gets or sets the timeout threshold for the <see cref="ReceiverChannel.GetAllItems"/> call. Defaults to 1 second.
         /// </summary>
-        public TimeSpan ReceiveTimeout { get => _receiveTimeout; set => _receiveTimeout = value; }
+        public TimeSpan ReceiveTimeout 
+        { 
+            get => _receiveTimeout; 
+            set => _receiveTimeout = value;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReceiverChannelSettings"/> class.
@@ -74,10 +88,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
         public ReceiverChannelSettings(int channel, int pinNumber) : base(channel, pinNumber)
         {
-            this.IdleThreshold = 12_000; //12ms
-            this.EnableFilter = true;
-            this.FilterThreshold = 100;
-            this.ReceiveTimeout = TimeSpan.FromSeconds(1);
+            _idleThreshold = 12_000; //12ms
+            _enableFilter = true;
+            _filterThreshold = 100;
+            _receiveTimeout = TimeSpan.FromSeconds(1);
         }
 
         /// <summary>
@@ -86,10 +100,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="other">The other <see cref="ReceiverChannelSettings"/> to copy values from.</param>
         internal ReceiverChannelSettings(ReceiverChannelSettings other) : base(other)
         {
-            this.IdleThreshold = other.IdleThreshold;
-            this.EnableFilter = other.EnableFilter;
-            this.FilterThreshold = other.FilterThreshold;
-            this.ReceiveTimeout = other.ReceiveTimeout;
+            _idleThreshold = other.IdleThreshold;
+            _enableFilter = other.EnableFilter;
+            _filterThreshold = other.FilterThreshold;
+            _receiveTimeout = other.ReceiveTimeout;
         }
     }
 }

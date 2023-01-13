@@ -118,10 +118,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Initializes a new instance of the <see cref="TransmitterChannel"/> class.
         /// </summary>
         /// <param name="settings">The channel settings to use.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"><paramref name="settings"/> cannot be null.</exception>
         public TransmitterChannel(TransmitChannelSettings settings) : base(settings)
         {
-            _transmitterChannelSettings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _transmitterChannelSettings = settings ?? throw new ArgumentNullException();
             _settings.Channel = NativeTxInit();
         }
 

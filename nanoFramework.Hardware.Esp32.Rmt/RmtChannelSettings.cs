@@ -67,7 +67,11 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// If memory block number of one channel is set to a value greater than 1, this channel will occupy the memory block of the next channel.
         /// Channel 0 can use at most 8 blocks of memory, accordingly channel 7 can only use one memory block.
         /// </remarks>
-        public byte NumberOfMemoryBlocks { get => _numberOfMemoryBlocks; set => _numberOfMemoryBlocks = value; }
+        public byte NumberOfMemoryBlocks 
+        { 
+            get => _numberOfMemoryBlocks; 
+            set => _numberOfMemoryBlocks = value;
+        }
 
         /// <summary>
         /// Gets or sets the RMT Ring Buffer size.
@@ -77,13 +81,21 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// For receive channels, Incoming <see cref="RmtCommand"/>s are moved to the ring buffer after the <see cref="ReceiverChannelSettings.IdleThreshold"/> has lapsed.
         /// For transmit channels, <see cref="RmtCommand"/>s are automatically copied over to the channel's memory block and written to the transmitter.
         /// </remarks>
-        public int BufferSize { get => _bufferSize; set => _bufferSize = value; }
+        public int BufferSize 
+        { 
+            get => _bufferSize; 
+            set => _bufferSize = value;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating if the RMT module should invert the incoming/outgoing signal.
         /// </summary>
         /// <remarks>This works like an external inverter connected to the GPIO of certain RMT channel.</remarks>
-        public bool SignalInverterEnabled { get => _signalInverterEnabled; set => _signalInverterEnabled = value; }
+        public bool SignalInverterEnabled 
+        { 
+            get => _signalInverterEnabled; 
+            set => _signalInverterEnabled = value; 
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RmtChannelSettings"/> class.
@@ -102,15 +114,15 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
         protected RmtChannelSettings(int channel, int pinNumber)
         {
-            this.Channel = channel <= 7
+            _channel = channel <= 7
                 ? channel
-                : throw new ArgumentOutOfRangeException(nameof(channel));
+                : throw new ArgumentOutOfRangeException();
 
-            this.PinNumber = pinNumber;
+            _pinNumber = pinNumber;
 
-            this.ClockDivider = 80; // 80Mhz (80_000_000) / 80 = 1Mhz (1_000_000) = 1us clock
-            this.NumberOfMemoryBlocks = 1; // default as per ESP32 IDF docs
-            this.BufferSize = 100; // hold 100 RMT items. Arbitrary value since 64 (amount allocated to the channel by default) didn't work for some reason.
+            _clockDivider = 80; // 80Mhz (80_000_000) / 80 = 1Mhz (1_000_000) = 1us clock
+            _numberOfMemoryBlocks = 1; // default as per ESP32 IDF docs
+            _bufferSize = 100; // hold 100 RMT items. Arbitrary value since 64 (amount allocated to the channel by default) didn't work for some reason.
         }
 
         /// <summary>
@@ -119,12 +131,12 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="other">The other <see cref="RmtChannelSettings"/> to copy values from.</param>
         internal RmtChannelSettings(RmtChannelSettings other)
         {
-            this.Channel = other.Channel;
-            this.PinNumber = other.PinNumber;
-            this.ClockDivider = other.ClockDivider;
-            this.NumberOfMemoryBlocks = other.NumberOfMemoryBlocks;
-            this.BufferSize = other.BufferSize;
-            this.SignalInverterEnabled = other.SignalInverterEnabled;
+            _channel = other.Channel;
+            _pinNumber = other.PinNumber;
+            _clockDivider = other.ClockDivider;
+            _numberOfMemoryBlocks = other.NumberOfMemoryBlocks;
+            _bufferSize = other.BufferSize;
+            _signalInverterEnabled = other.SignalInverterEnabled;
         }
     }
 }

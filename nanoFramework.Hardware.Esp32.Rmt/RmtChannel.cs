@@ -47,7 +47,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// The source clock. Only the 80MHz APB clock is currently supported.
+        /// Gets the source clock. Only the 80MHz APB clock is currently supported so the value will always be <see cref="SourceClock.APB"/> in the current implementation.
         /// </summary>
         /// <remarks>
         /// ESP IDF v4.4.3 supports only <see cref="SourceClock.APB"/>. This property cannot be changed.
@@ -56,7 +56,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public SourceClock SourceClock
         {
             get => SourceClock.APB;
-            set => throw new NotSupportedException();
         }
 
         /// <summary>
@@ -97,10 +96,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Initializes a new instance of the <see cref="RmtChannel"/> class.
         /// </summary>
         /// <param name="settings">A <see cref="RmtChannelSettings"/> instance to configure the channel.</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"><paramref name="settings"/> cannot be null.</exception>
         protected RmtChannel(RmtChannelSettings settings)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _settings = settings ?? throw new ArgumentNullException();
         }
 
         #region native calls

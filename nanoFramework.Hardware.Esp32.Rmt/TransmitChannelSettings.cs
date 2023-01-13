@@ -16,50 +16,78 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// </remarks>
     public sealed class TransmitChannelSettings : RmtChannelSettings
     {
-        private bool enableCarrierWave;
-        private bool carrierLevel;
-        private int carrierWaveFrequency;
-        private byte carrierWaveDutyPercentage;
-        private bool enableLooping;
-        private bool enableIdleLevelOutput;
-        private bool idleLevel;
+        private bool _enableCarrierWave;
+        private bool _carrierLevel;
+        private int _carrierWaveFrequency;
+        private byte _carrierWaveDutyPercentage;
+        private bool _enableLooping;
+        private bool _enableIdleLevelOutput;
+        private bool _idleLevel;
 
         /// <summary>
         /// Enables or disables the carrier wave generator in the RMT Hardware.
         /// </summary>
-        public bool EnableCarrierWave { get => enableCarrierWave; set => enableCarrierWave = value; }
+        public bool EnableCarrierWave 
+        { 
+            get => _enableCarrierWave; 
+            set => _enableCarrierWave = value; 
+        }
 
         /// <summary>
         /// Gets or sets a value indicating at which level of RMT output is the carrier wave applied.
         /// <see langword="true" /> = HIGH.
         /// </summary>
-        public bool CarrierLevel { get => carrierLevel; set => carrierLevel = value; }
+        public bool CarrierLevel 
+        { 
+            get => _carrierLevel; 
+            set => _carrierLevel = value;
+        }
 
         /// <summary>
         /// Gets or sets the carrier wave frequency.
         /// </summary>
-        public int CarrierWaveFrequency { get => carrierWaveFrequency; set => carrierWaveFrequency = value; }
+        public int CarrierWaveFrequency 
+        { 
+            get => _carrierWaveFrequency; 
+            set => _carrierWaveFrequency = value;
+        }
 
         /// <summary>
         /// Gets or sets the carrier wave duty cycle percentage.
         /// </summary>
-        public byte CarrierWaveDutyPercentage { get => carrierWaveDutyPercentage; set => carrierWaveDutyPercentage = value; }
+        public byte CarrierWaveDutyPercentage 
+        { 
+            get => _carrierWaveDutyPercentage; 
+            set => _carrierWaveDutyPercentage = value;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to enable or disable looping through the ring buffer when transmitting <see cref="RmtCommand"/>s.
         /// </summary>
-        public bool EnableLooping { get => enableLooping; set => enableLooping = value; }
+        public bool EnableLooping 
+        { 
+            get => _enableLooping; 
+            set => _enableLooping = value;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to enable or disable the idle level output.
         /// </summary>
-        public bool EnableIdleLevelOutput { get => enableIdleLevelOutput; set => enableIdleLevelOutput = value; }
+        public bool EnableIdleLevelOutput 
+        { 
+            get => _enableIdleLevelOutput; 
+            set => _enableIdleLevelOutput = value; 
+        }
 
         /// <summary>
         /// Gets or sets a value indicating the RMT idle level.
         /// <see langword="true" /> = HIGH.
         /// </summary>
-        public bool IdleLevel { get => idleLevel; set => idleLevel = value; }
+        public bool IdleLevel 
+        { 
+            get => _idleLevel; 
+            set => _idleLevel = value;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransmitChannelSettings"/> class.
@@ -79,15 +107,15 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
         public TransmitChannelSettings(int channel, int pinNumber) : base(channel, pinNumber)
         {
-            this.EnableCarrierWave = true;
-            this.CarrierLevel = true;
-            this.CarrierWaveFrequency = 38_000;
-            this.CarrierWaveDutyPercentage = 33;
+            _enableCarrierWave = true;
+            _carrierLevel = true;
+            _carrierWaveFrequency = 38_000;
+            _carrierWaveDutyPercentage = 33;
 
-            this.EnableLooping = false;
+            _enableLooping = false;
 
-            this.EnableIdleLevelOutput = true;
-            this.IdleLevel = false;
+            _enableIdleLevelOutput = true;
+            _idleLevel = false;
         }
 
         /// <summary>
@@ -96,15 +124,15 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="other">The other <see cref="TransmitChannelSettings"/> to copy values from.</param>
         internal TransmitChannelSettings(TransmitChannelSettings other) : base(other)
         {
-            this.EnableCarrierWave = other.EnableCarrierWave;
-            this.CarrierLevel = other.CarrierLevel;
-            this.CarrierWaveFrequency = other.CarrierWaveFrequency;
-            this.CarrierWaveDutyPercentage = other.CarrierWaveDutyPercentage;
+            _enableCarrierWave = other.EnableCarrierWave;
+            _carrierLevel = other.CarrierLevel;
+            _carrierWaveFrequency = other.CarrierWaveFrequency;
+            _carrierWaveDutyPercentage = other.CarrierWaveDutyPercentage;
 
-            this.EnableLooping = other.EnableLooping;
+            _enableLooping = other.EnableLooping;
 
-            this.EnableIdleLevelOutput = other.EnableIdleLevelOutput;
-            this.IdleLevel = other.IdleLevel;
+            _enableIdleLevelOutput = other.EnableIdleLevelOutput;
+            _idleLevel = other.IdleLevel;
         }
     }
 }

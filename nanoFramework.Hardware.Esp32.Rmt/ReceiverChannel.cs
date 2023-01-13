@@ -67,7 +67,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <exception cref="ArgumentNullException"><paramref name="settings"/> cannot be null.</exception>
         public ReceiverChannel(ReceiverChannelSettings settings) : base(settings)
         {
-            _receiverChannelSettings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _receiverChannelSettings = settings ?? throw new ArgumentNullException();
             _settings.Channel = NativeRxInit();
         }
 
