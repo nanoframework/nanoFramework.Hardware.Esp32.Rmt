@@ -13,34 +13,62 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// </summary>
     public class ReceiverChannel : RmtChannel, IDisposable
     {
-        #region Fields
-
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private TimeSpan _receiveTimeout = new TimeSpan(0, 0, 1); // 1 sec
+        private readonly ReceiverChannelSettings _receiverChannelSettings;
 
-        #endregion Fields
+        /// <inheritdoc/>
+        public override ChannelMode Mode => ChannelMode.Receive;
 
         /// <summary>
-        /// The receive time-out used when calling GetAllItems. Default 1 second.
+        /// Gets or sets the idle threshold after which the receiver will go into idle mode 
+        /// and <see cref="RmtCommand"/>s are copied into the ring buffer and availble to your code.
         /// </summary>
-        public TimeSpan ReceiveTimeout
+        public ushort IdleThreshold
         {
-            get => _receiveTimeout;
-            set => _receiveTimeout = value;
+            get => _receiverChannelSettings.IdleThreshold;
+            set
+            {
+                NativeRxSetIdleThresold(value);
+                _receiverChannelSettings.IdleThreshold = value;
+            }
         }
-        /// <summary>
-        /// Public constructor to create receiver channel object.
-        /// </summary>
-        /// <param name="gpio">The GPIO pin number that we want to use for receiving</param>
-        /// <param name="rmtBufferSize">The maximum number of RMT commands to be reserved in receiver input buffer. 
-        /// Default 100.</param>
-        public ReceiverChannel(int gpio, int rmtBufferSize = 100)
-        {
-            // Default to 1MHZ tick ( 1us )
-            _clockDivider = 80;
 
-            // Initialise channel with GPIO and ring buffer size
-            _channel = NativeRxInit(gpio, rmtBufferSize);
+        /// <summary>
+        /// Gets or sets a value indicating if the the filter is enabled. 
+        /// If enabled, the receiver will ignore pulses with widths less than specified in <see cref="FilterThreshold"/>.
+        /// </summary>
+        public bool EnableFilter
+        {
+            get => _receiverChannelSettings.EnableFilter;
+            set
+            {
+                NativeRxEnableFilter(value, _receiverChannelSettings.FilterThreshold);
+                _receiverChannelSettings.EnableFilter = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the threshold for pulse widths to ignore when <see cref="EnableFilter"/> is set to <see langword="true"/>.
+        /// </summary>
+        public byte FilterThreshold
+        {
+            get => _receiverChannelSettings.FilterThreshold;
+            set
+            {
+                NativeRxEnableFilter(_receiverChannelSettings.EnableFilter, value);
+                _receiverChannelSettings.FilterThreshold = value;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReceiverChannel"/> class.
+        /// </summary>
+        /// <param name="settings">The channel settings to use.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="settings"/> cannot be null.</exception>
+        public ReceiverChannel(ReceiverChannelSettings settings) : base(settings)
+        {
+            _receiverChannelSettings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _settings.Channel = NativeRxInit();
         }
 
         /// <summary>
@@ -58,34 +86,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public void Stop()
         {
             NativeRxStop();
-        }
-
-        /// <summary>
-        /// Enable / Disable filter for channel.
-        /// </summary>
-        /// <param name="enable">True to Enable filter</param>
-        /// <param name="threshold">Pulse width to ignore expressed in number of source clock cycles,
-        /// Value between 1-255</param>
-
-        public void EnableFilter(bool enable, byte threshold)
-        {
-            NativeRxEnableFilter(enable, threshold);
-        }
-
-        /// <summary>
-        /// Set the Idle Threshold in ticks.
-        /// </summary>
-        /// <Remarks>
-        /// The receive process finishes(goes idle) when no edges have been detected for Idle Threshold clock cycles.</Remarks>
-        /// <param name="threshold">Value between 1 and 65535 (0xFFFF)</param>
-        public void SetIdleThresold(ushort threshold)
-        {
-            if (threshold == 0)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            NativeRxSetIdleThresold(threshold);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         #region Native calls
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern int NativeRxInit(int gpio, int rmtBufferSize);
+        private extern int NativeRxInit();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeRxStart(bool clearBuffer);

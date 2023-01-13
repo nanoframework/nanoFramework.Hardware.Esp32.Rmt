@@ -17,22 +17,16 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         #region Fields
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private bool _carrierEnabled = false;
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private ushort _carrierHighDuration = 1;
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private ushort _carrierLowDuration = 1;
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private bool _carrierLevel = false;
+        private readonly TransmitChannelSettings _transmitterChannelSettings;
 
         private readonly ArrayList _commands = new ArrayList();
 
         #endregion Fields
 
         #region Properties
+
+        /// <inheritdoc/>
+        public override ChannelMode Mode => ChannelMode.Transmit;
 
         /// <summary>
         /// Access a command from the array of commands that will be sent
@@ -67,137 +61,107 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             }
         }
 
-        ///// <summary>
-        ///// True if the channel's memory is in low power mode; false otherwise.
-        ///// </summary>
-        //public bool IsMemoryInLowPowerMode
-        //{
-        //    get
-        //    {
-        //        return NativeGetMemoryLowPower(Channel);
-        //    }
-        //    set
-        //    {
-        //        NativeSetMemoryLowPower(Channel, value);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// The number of 64 * 32-bit memory blocks held by the channel.
-        ///// </summary>
-        ///// <remarks>
-        ///// The 8 channels share a pool of 512 32-bit memory blocks.
-        ///// If a channel has more than one memory blocks, it will occupy
-        ///// the memory blocks of subsequent channels. Thus, Channel 0 can
-        ///// use at most 8 blocks and channel 7 one.
-        ///// </remarks>
-
-        //public byte MemoryBlockNumber
-        //{
-        //    get
-        //    {
-        //        return NativeGetMemoryBlockNumber(Channel);
-        //    }
-        //    set
-        //    {
-        //        if (value > (NumberRmtChannels - Channel))
-        //        {
-        //            throw new ArgumentOutOfRangeException();
-        //        }
-        //        NativeSetMemoryBlockNumber(Channel, value);
-        //    }
-        //}
-
-
-        //public ChannelStatus Status
-        //{
-        //    get
-        //    {
-        //        return (ChannelStatus)NativeGetChannelStatus(Channel);
-        //    }
-        //}
-
         /// <summary>
-        /// Is the carrier wave enabled?
-        /// </summary>
-        public bool CarrierEnabled
-        {
-            get => _carrierEnabled;
-
-            set
-            {
-                _carrierEnabled = value;
-
-                // update carrier configuration
-                ConfigureCarrier();
-            }
-        }
-
-        /// <summary>
-        /// Is the channel idle?
+        /// Gets a value indicating whether the channel is in idle mode.
         /// </summary>
         public bool IsChannelIdle
         {
-            get => NativeGetIsChannelIdle();
-            set => NativeSetIsChannelIdle(value);
+            get => NativeTxGetIsChannelIdle();
         }
 
         /// <summary>
-        /// The level of the channel when in an idle state.
+        /// Gets or sets a value indicating whether to enable or disable looping through the ring buffer when transmitting <see cref="RmtCommand"/>s.
         /// </summary>
-        public bool IdleLevel
+        public bool EnableLooping
         {
-            get => NativeGetIdleLevel();
-            set => NativeSetIdleLevel(value);
-        }
-
-        /// <summary>
-        /// The duration of the carrier wave's high pulse, in source clock ticks.
-        /// </summary>
-        public ushort CarrierHighDuration
-        {
-            get => _carrierHighDuration;
-
+            get => _transmitterChannelSettings.EnableLooping;
             set
             {
-                _carrierHighDuration = value;
-
-                // update carrier configuration
-                ConfigureCarrier();
+                NativeTxSetLoopingMode(value);
+                _transmitterChannelSettings.EnableLooping = value;
             }
         }
 
         /// <summary>
-        /// The duration of the carrier wave's low pulse, in source clock ticks.
-        /// </summary>
-        public ushort CarrierLowDuration
-        {
-            get => _carrierLowDuration;
-
-            set
-            {
-                _carrierLowDuration = value;
-
-                // update carrier configuration
-                ConfigureCarrier();
-            }
-        }
-
-        /// <summary>
-        /// The level of the carrier wave's.
+        /// Gets or sets a value indicating at which level of RMT output is the carrier wave applied.
+        /// <see langword="true" /> = HIGH.
         /// </summary>
         public bool CarrierLevel
         {
-            get => _carrierLevel;
-
+            get => _transmitterChannelSettings.CarrierLevel;
             set
             {
-                _carrierLevel = value;
-
-                // update carrier configuration
-                ConfigureCarrier();
+                NativeTxSetCarrierMode();
+                _transmitterChannelSettings.CarrierLevel = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating the RMT idle level.
+        /// <see langword="true" /> = HIGH.
+        /// </summary>
+        public bool IdleLevel
+        {
+            get => _transmitterChannelSettings.IdleLevel;
+            set
+            {
+                NativeTxSetIdleLevel(value);
+                _transmitterChannelSettings.IdleLevel = value;
+            }
+        }
+
+        #endregion Properties
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransmitterChannel"/> class.
+        /// </summary>
+        /// <param name="settings">The channel settings to use.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public TransmitterChannel(TransmitChannelSettings settings) : base(settings)
+        {
+            _transmitterChannelSettings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _settings.Channel = NativeTxInit();
+        }
+
+        #endregion Constructor
+
+        #region Methods
+
+        /// <summary>
+        /// Add new RMT command to the list of commands that will be sent
+        /// </summary>
+        /// <param name="cmd">RmtCommand to Add</param>
+        public void AddCommand(RmtCommand cmd)
+        {
+            _commands.Add(cmd);
+        }
+
+        /// <summary>
+        /// Clear list of commands.
+        /// </summary>
+        public void ClearCommands()
+        {
+            _commands.Clear();
+        }
+
+        /// <summary>
+        /// Send the filled RMT commands to the transmitter
+        /// </summary>
+        /// <param name="waitTxDone">If true wait the TX process to end, false function returns without waiting, but if another command is send before the end of the previous process an error will occur.</param>
+        public void Send(bool waitTxDone)
+            => SendData(SerializeCommands(), waitTxDone);
+
+        /// <summary>
+        /// Send a RAW data to RMT module
+        /// </summary>
+        /// <param name="data">byte array of data for tx module ready for native function</param>
+        /// <param name="waitTxDone"></param>
+#pragma warning disable S4200 // Native methods should be wrapped
+        public void SendData(byte[] data, bool waitTxDone)
+            => NativeTxWriteItems(data, waitTxDone);
+#pragma warning restore S4200 // Native methods should be wrapped
 
         /// <summary>
         /// Serialize commands to rmt_item32_t native byte format
@@ -210,7 +174,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             byte[] binaryCommands = new byte[_commands.Count * 4];
             foreach (var cmd in _commands)
             {
-                //First pair
+                // First pair
                 if ((cmd as RmtCommand).Duration0 <= 255)
                 {
                     binaryCommands[0 + i] = (byte)(cmd as RmtCommand).Duration0;
@@ -223,7 +187,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
                     binaryCommands[1 + i] = (byte)(((cmd as RmtCommand).Level0 ? 128 : 0) + (((cmd as RmtCommand).Duration0 - remaining) / 256));
                 }
 
-                //Second pair
+                // Second pair
                 if ((cmd as RmtCommand).Duration1 <= 255)
                 {
                     binaryCommands[2 + i] = (byte)(cmd as RmtCommand).Duration1;
@@ -240,22 +204,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             return binaryCommands;
         }
 
-        #endregion Properties
-
-        #region Constructor
-
-        /// <summary>
-        /// Public constructor to create Transmitter object
-        /// </summary>
-        /// <param name="gpio">The GPIO pin number that we want to use for transmitting</param>
-        public TransmitterChannel(int gpio)
-        {
-            NativeInit(gpio);
-
-            ConfigureCarrier();
-        }
-
-        #endregion Constructor
+        #endregion Methods
 
         #region Destructors
 
@@ -269,132 +218,35 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
 #pragma warning disable S4200 // Native methods should be wrapped
-        protected virtual void Dispose(bool disposing) => NativeDispose();
+        protected virtual void Dispose(bool disposing) => NativeTxDispose();
 #pragma warning restore S4200 // Native methods should be wrapped
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         #endregion Destructors
 
-        #region Methods
-
-        /// <summary>
-        /// Configures the carrier's settings.
-        /// </summary>
-        private void ConfigureCarrier() => NativeSetCarrierMode();
-
-        ///// <summary>
-        ///// Fill the channel's memory with RmtItems
-        ///// </summary>
-        ///// <param name="items">Array of items to write to memory</param>
-        ///// <param name="offset">Offset index of the channel's memory</param>
-        //private uint FillItems(RmtItem[] items, ushort offset) =>
-        //    NativeTxFillItems(Channel, items, offset);
-
-        ///// <summary>
-        ///// Start transmitting RmtItems from memory
-        ///// </summary>
-        ///// <param name="resetIndex">If true, reset the memory index; otherwise continue from the last index in memory</param>
-        //private uint Start(bool resetIndex) =>
-        //    NativeTxStart(Channel, resetIndex);
-
-        ///// <summary>
-        ///// Stop transmitting RmtItems.
-        ///// </summary>
-        //private uint Stop() => NativeTxStop(Channel);
-
-        /// <summary>
-        /// Send the filled RMT commands to the transmitter
-        /// </summary>
-        /// <param name="waitTxDone">If true wait the TX process to end, false function returns without waiting, but if another command is send before the end of the previous process an error will occur.</param>
-        public void Send(bool waitTxDone) => SendData(SerializeCommands(), waitTxDone);
-
-        /// <summary>
-        /// Send a RAW data to RMT module
-        /// </summary>
-        /// <param name="data">byte array of data for tx module ready for native function</param>
-        /// <param name="waitTxDone"></param>
-#pragma warning disable S4200 // Native methods should be wrapped
-        public void SendData(byte[] data, bool waitTxDone) => NativeWriteItems(data, waitTxDone);
-#pragma warning restore S4200 // Native methods should be wrapped
-
-        private uint WaitTxDone(int waitTime) =>
-            NativeWaitTxDone(waitTime);
-
-        /// <summary>
-        /// Clear list of commands.
-        /// </summary>
-        public void ClearCommands()
-        {
-            _commands.Clear();
-        }
-
-        /// <summary>
-        /// Add new RMT command to the list of commands that will be sent
-        /// </summary>
-        /// <param name="cmd">RmtCommand to Add</param>
-        public void AddCommand(RmtCommand cmd)
-        {
-            _commands.Add(cmd);
-        }
-
-        #endregion Methods
-
         #region native calls
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeInit(int gpio);
+        private extern int NativeTxInit();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern bool NativeGetIdleLevel();
+        private extern bool NativeTxGetIsChannelIdle();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern bool NativeGetIsChannelIdle();
+        private extern void NativeTxSetLoopingMode(bool enabled);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeSetIsChannelIdle(bool value);
+        private extern void NativeTxSetCarrierMode();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeSetIdleLevel(bool value);
+        private extern void NativeTxSetIdleLevel(bool value);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeSetCarrierMode();
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern uint NativeTxFillItems(int channel, RmtItem[] items, ushort offset);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern uint NativeTxStart(int channel, bool resetIndex);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern uint NativeTxStop(int channel);
+        private extern uint NativeTxWriteItems(byte[] items, bool waitTxDone);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern uint NativeWriteItems(byte[] items, bool waitTxDone);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern uint NativeWaitTxDone(int waitType);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeDispose();
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern int NativeGetChannelStatus(int channel);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern byte NativeGetMemoryBlockNumber(int channel);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern bool NativeGetMemoryLowPower(int channel);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern bool NativeGetSourceClock();
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern void NativeSetMemoryBlockNumber(int channel, byte value);
-
-        //[MethodImpl(MethodImplOptions.InternalCall)]
-        //private extern void NativeSetMemoryLowPower(int channel, bool value);
+        private extern void NativeTxDispose();
 
         #endregion Stubs
     }
