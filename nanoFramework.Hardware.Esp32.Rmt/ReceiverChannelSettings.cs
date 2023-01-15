@@ -29,12 +29,13 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// The receive process finishes(goes idle) when no edges have been detected for Idle Threshold clock cycles.
         /// Supported value range between 1 and 65535 (0xFFFF)
         /// </remarks>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be set to 0 or less</exception>
         public ushort IdleThreshold
         {
             get => _idleThreshold;
             set
             {
-                if (value == 0)
+                if (value <= 0)
                 {
                     throw new ArgumentOutOfRangeException();
                 }

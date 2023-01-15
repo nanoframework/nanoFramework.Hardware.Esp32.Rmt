@@ -22,23 +22,37 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Gets or sets the channel number.
         /// </summary>
-        /// <exception cref="InvalidOperationException">Cannot make changes to the property after the RMT channel is initialized.
-        /// Use the methods on the channel instance to make configuration changes.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less than 0 or more than 7.</exception>
         public int Channel
         {
             get => _channel;
-            set => _channel = value;
+            set
+            {
+                if (value < 0 || value > 7)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _channel = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets the GPIO pin number to be used with the specified channel.
         /// </summary>
-        /// <exception cref="InvalidOperationException">Cannot make changes to the property after the RMT channel is initialized.
-        /// Use the methods on the channel instance to make configuration changes.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less than 0.</exception>
         public int PinNumber
         {
             get => _pinNumber;
-            set => _pinNumber = value;
+            set
+            {
+                if (_pinNumber < 0)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _pinNumber = value;
+            }
         }
 
         /// <summary>
@@ -48,12 +62,19 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// ESP IDF v4.4.3 only supports the APB bus clock @ 80Mhz.
         /// The default value for the divider is 80 (80Mhz / 80 = 1Mhz = 1us ticks).
         /// </remarks>
-        /// <exception cref="InvalidOperationException">Cannot make changes to the property after the RMT channel is initialized.
-        /// Use the methods on the channel instance to make configuration changes.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less than 1.</exception>
         public byte ClockDivider
         {
             get => _clockDivider;
-            set => _clockDivider = value;
+            set
+            {
+                if (value < 1)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _clockDivider = value;
+            }
         }
 
         /// <summary>
@@ -67,10 +88,19 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// If memory block number of one channel is set to a value greater than 1, this channel will occupy the memory block of the next channel.
         /// Channel 0 can use at most 8 blocks of memory, accordingly channel 7 can only use one memory block.
         /// </remarks>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be 0 or more than 8.</exception>
         public byte NumberOfMemoryBlocks 
         { 
             get => _numberOfMemoryBlocks; 
-            set => _numberOfMemoryBlocks = value;
+            set
+            {
+                if (value < 1 || value > 8)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _numberOfMemoryBlocks = value;
+            }
         }
 
         /// <summary>

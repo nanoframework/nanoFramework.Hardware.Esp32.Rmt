@@ -27,65 +27,82 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Enables or disables the carrier wave generator in the RMT Hardware.
         /// </summary>
-        public bool EnableCarrierWave 
-        { 
-            get => _enableCarrierWave; 
-            set => _enableCarrierWave = value; 
+        public bool EnableCarrierWave
+        {
+            get => _enableCarrierWave;
+            set => _enableCarrierWave = value;
         }
 
         /// <summary>
         /// Gets or sets a value indicating at which level of RMT output is the carrier wave applied.
         /// <see langword="true" /> = HIGH.
         /// </summary>
-        public bool CarrierLevel 
-        { 
-            get => _carrierLevel; 
+        public bool CarrierLevel
+        {
+            get => _carrierLevel;
             set => _carrierLevel = value;
         }
 
         /// <summary>
         /// Gets or sets the carrier wave frequency.
         /// </summary>
-        public int CarrierWaveFrequency 
-        { 
-            get => _carrierWaveFrequency; 
-            set => _carrierWaveFrequency = value;
+        public int CarrierWaveFrequency
+        {
+            get => _carrierWaveFrequency;
+            set
+            {
+                if (_carrierWaveFrequency < 1)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _carrierWaveFrequency = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets the carrier wave duty cycle percentage.
         /// </summary>
-        public byte CarrierWaveDutyPercentage 
-        { 
-            get => _carrierWaveDutyPercentage; 
-            set => _carrierWaveDutyPercentage = value;
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 1 or greater than 100.</exception>
+        public byte CarrierWaveDutyPercentage
+        {
+            get => _carrierWaveDutyPercentage;
+            set
+            {
+                if (_carrierWaveDutyPercentage < 1 || _carrierWaveDutyPercentage > 100)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _carrierWaveDutyPercentage = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether to enable or disable looping through the ring buffer when transmitting <see cref="RmtCommand"/>s.
         /// </summary>
-        public bool EnableLooping 
-        { 
-            get => _enableLooping; 
+        public bool EnableLooping
+        {
+            get => _enableLooping;
             set => _enableLooping = value;
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether to enable or disable the idle level output.
         /// </summary>
-        public bool EnableIdleLevelOutput 
-        { 
-            get => _enableIdleLevelOutput; 
-            set => _enableIdleLevelOutput = value; 
+        public bool EnableIdleLevelOutput
+        {
+            get => _enableIdleLevelOutput;
+            set => _enableIdleLevelOutput = value;
         }
 
         /// <summary>
         /// Gets or sets a value indicating the RMT idle level.
         /// <see langword="true" /> = HIGH.
         /// </summary>
-        public bool IdleLevel 
-        { 
-            get => _idleLevel; 
+        public bool IdleLevel
+        {
+            get => _idleLevel;
             set => _idleLevel = value;
         }
 
