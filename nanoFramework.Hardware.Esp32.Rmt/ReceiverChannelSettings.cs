@@ -55,8 +55,15 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Gets or sets the threshold for pulse widths to ignore when <see cref="EnableFilter"/> is set to <see langword="true"/>.
+        /// Gets or sets the threshold, in clock ticks, of the filter.
+        /// when <see cref="EnableFilter"/> is set to <see langword="true"/> It will ignore pulses shorter than the specified threshold.
+        /// The acceptable range of values is 0 to 255 clock ticks.
         /// </summary>
+        /// <remarks>
+        /// Example:
+        /// If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 then the clock (80Mhz) will tick at a rate of 1Mhz (80Mhz / 80 = 1Mhz) making each clock tick equal to 1 microsecond.
+        /// Therefore, setting <see cref="FilterThreshold"/> to a value like 100 will cause the receiver channel to ignore any pulses that are shorter than 100 microseconds.
+        /// </remarks>
         public byte FilterThreshold 
         { 
             get => _filterThreshold; 
