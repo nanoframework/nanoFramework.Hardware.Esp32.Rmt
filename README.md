@@ -10,7 +10,9 @@ RMT (Remote Control) is an ESP32 module driver that is, originally, intended to 
 
 ## Getting Started
 
-Our samples repository contains commented code showcasing how to use the RMT module in ESP32 MCUs to control various types of devices using nanoFramework. The RMT samples can be found [here](https://docs.espressif.com/projects/esp-idf/en/v4.4.3/esp32/api-reference/peripherals/rmt.html).
+Our samples repository contains commented code showcasing how to use the RMT module in ESP32 MCUs to control various types of devices using nanoFramework. The RMT samples can be found [Here](https://github.com/nanoframework/Samples/tree/main/samples/Hardware.Esp32.Rmt). 
+
+A detailed explanation about the RMT module can be found [here](https://docs.espressif.com/projects/esp-idf/en/v4.4.3/esp32/api-reference/peripherals/rmt.html).
 
 ## Migrating from v1 to v2
 
