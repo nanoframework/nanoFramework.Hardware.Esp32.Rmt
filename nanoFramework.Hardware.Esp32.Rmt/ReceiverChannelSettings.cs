@@ -23,11 +23,13 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
         /// <summary>
         /// Gets or sets the idle threshold after which the receiver will go into idle mode 
-        /// and <see cref="RmtCommand"/>s are copied into the ring buffer and availble to your code.
+        /// and <see cref="RmtCommand"/>s are copied into the ring buffer and availble to your code. This is measured by number of clock ticks (after applying the clock divider).
         /// </summary>
         /// <remarks>
-        /// The receive process finishes(goes idle) when no edges have been detected for Idle Threshold clock cycles.
-        /// Supported value range between 1 and 65535 (0xFFFF)
+        /// The receive process finishes(goes idle) when no edges have been detected for the specified <see cref="IdleThreshold"/> clock cycles.
+        /// Supported value range between 1 and 65535 (0xFFFF).
+        /// The RMT Module's clock ticks at a rate of 80Mhz. If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 for example, then a clock tick is equal to 1 microsecond (80Mhz / 80 = 1Mhz = 1us).
+        /// So setting this property to a value of 200 means the threshold is 200us.
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Value cannot be set to 0 or less</exception>
         public ushort IdleThreshold

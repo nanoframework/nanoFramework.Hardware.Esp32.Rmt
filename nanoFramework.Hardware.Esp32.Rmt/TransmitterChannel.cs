@@ -12,6 +12,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// <summary>
     /// A class that can be used to create and transmit RMT commands on ESP32
     /// </summary>
+    /// <remarks>
+    /// For detailed explanation of ESP32 RMT Module, please check the Espressif official documentation here: https://docs.espressif.com/projects/esp-idf/en/v4.4.3/esp32/api-reference/peripherals/rmt.html
+    /// </remarks>
     public class TransmitterChannel : RmtChannel, IDisposable
     {
         #region Fields
