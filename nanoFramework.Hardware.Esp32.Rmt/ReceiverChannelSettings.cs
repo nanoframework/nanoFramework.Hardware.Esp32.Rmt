@@ -20,6 +20,11 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private bool _enableFilter;
         private byte _filterThreshold;
         private TimeSpan _receiveTimeout;
+        private bool _enableDemodulation;
+        private int _carrierWaveFrequency;
+        private byte _carrierWaveDutyPercentage;
+        private bool _carrierLevel;
+
 
         /// <summary>
         /// Gets or sets the idle threshold after which the receiver will go into idle mode 
@@ -82,6 +87,72 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
+        /// Enables or disables demodulating the received signal.
+        /// </summary>
+        /// <remarks>
+        /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
+        /// </remarks>
+        public bool EnableDemodulation
+        {
+            get => _enableDemodulation;
+            set => _enableDemodulation = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the carrier wave frequency. Only applicable when <see cref="EnableDemodulation"/> is set to <see langword="true" />.
+        /// </summary>
+        /// <remarks>
+        /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
+        /// </remarks>
+        public int CarrierWaveFrequency
+        {
+            get => _carrierWaveFrequency;
+            set
+            {
+                if (value < 1)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _carrierWaveFrequency = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the carrier wave duty cycle percentage. Only applicable when <see cref="EnableDemodulation"/> is set to <see langword="true" />.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 1 or greater than 100.</exception>
+        /// <remarks>
+        /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
+        /// </remarks>
+        public byte CarrierWaveDutyPercentage
+        {
+            get => _carrierWaveDutyPercentage;
+            set
+            {
+                if (value < 1 || value > 100)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _carrierWaveDutyPercentage = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating at which level of RMT output is the carrier wave applied. Only applicable when <see cref="EnableDemodulation"/> is set to <see langword="true" />.
+        /// <see langword="true" /> = HIGH.
+        /// </summary>
+        /// <remarks>
+        /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
+        /// </remarks>
+        public bool CarrierLevel
+        {
+            get => _carrierLevel;
+            set => _carrierLevel = value;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReceiverChannelSettings"/> class.
         /// </summary>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
@@ -102,6 +173,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _enableFilter = true;
             _filterThreshold = 100;
             _receiveTimeout = TimeSpan.FromSeconds(1);
+            _enableDemodulation = true;
+            _carrierWaveFrequency = 38_000;
+            _carrierWaveDutyPercentage = 33;
+            _carrierLevel= true;
         }
 
         /// <summary>
@@ -114,6 +189,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _enableFilter = other.EnableFilter;
             _filterThreshold = other.FilterThreshold;
             _receiveTimeout = other.ReceiveTimeout;
+            _enableDemodulation= other.EnableDemodulation;
+            _carrierWaveFrequency= other.CarrierWaveFrequency;
+            _carrierWaveDutyPercentage= other.CarrierWaveDutyPercentage;
+            _carrierLevel= other.CarrierLevel;
         }
     }
 }

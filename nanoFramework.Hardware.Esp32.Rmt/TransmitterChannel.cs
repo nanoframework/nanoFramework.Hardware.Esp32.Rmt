@@ -86,6 +86,22 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
+        /// Gets or sets the maximum transmission loop count. Only applicable if <see cref="EnableLooping"/> is set to <see langword="true"/>.
+        /// </summary>
+        /// <remarks>
+        /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
+        /// </remarks>
+        public int LoopCount
+        {
+            get => _transmitterChannelSettings.LoopCount;
+            set
+            {
+                NativeTxSetLoopCount(value);
+                _transmitterChannelSettings.LoopCount = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating at which level of RMT output is the carrier wave applied.
         /// <see langword="true" /> = HIGH.
         /// </summary>
@@ -238,6 +254,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeTxSetLoopingMode(bool enabled);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void NativeTxSetLoopCount(int count);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeTxSetCarrierMode();

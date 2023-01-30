@@ -21,6 +21,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private int _carrierWaveFrequency;
         private byte _carrierWaveDutyPercentage;
         private bool _enableLooping;
+        private int _loopCount;
         private bool _enableIdleLevelOutput;
         private bool _idleLevel;
 
@@ -51,7 +52,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             get => _carrierWaveFrequency;
             set
             {
-                if (_carrierWaveFrequency < 1)
+                if (value < 1)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -69,7 +70,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             get => _carrierWaveDutyPercentage;
             set
             {
-                if (_carrierWaveDutyPercentage < 1 || _carrierWaveDutyPercentage > 100)
+                if (value < 1 || value > 100)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -85,6 +86,27 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         {
             get => _enableLooping;
             set => _enableLooping = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum transmission loop count. Only applicable if <see cref="EnableLooping"/> is set to <see langword="true"/>.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 1 or greater than 1023.</exception>
+        /// <remarks>
+        /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
+        /// </remarks>
+        public int LoopCount
+        {
+            get => _loopCount;
+            set
+            {
+                if (value < 1 || value > 1023)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _loopCount = value;
+            }
         }
 
         /// <summary>
@@ -130,6 +152,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _carrierWaveDutyPercentage = 33;
 
             _enableLooping = false;
+            _loopCount = 1;
 
             _enableIdleLevelOutput = true;
             _idleLevel = false;
@@ -147,6 +170,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _carrierWaveDutyPercentage = other.CarrierWaveDutyPercentage;
 
             _enableLooping = other.EnableLooping;
+            _loopCount = other.LoopCount;
 
             _enableIdleLevelOutput = other.EnableIdleLevelOutput;
             _idleLevel = other.IdleLevel;

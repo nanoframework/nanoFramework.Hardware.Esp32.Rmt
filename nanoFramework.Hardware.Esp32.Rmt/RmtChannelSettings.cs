@@ -46,7 +46,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             get => _pinNumber;
             set
             {
-                if (_pinNumber < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
