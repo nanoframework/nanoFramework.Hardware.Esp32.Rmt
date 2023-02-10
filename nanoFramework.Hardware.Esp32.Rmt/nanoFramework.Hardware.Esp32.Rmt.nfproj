@@ -44,11 +44,15 @@
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
+    <Compile Include="ChannelMode.cs" />
     <Compile Include="ReceiverChannel.cs" />
+    <Compile Include="ReceiverChannelSettings.cs" />
     <Compile Include="RmtChannel.cs" />
+    <Compile Include="RmtChannelSettings.cs" />
     <Compile Include="SourceClock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RmtCommand.cs" />
+    <Compile Include="TransmitChannelSettings.cs" />
     <Compile Include="TransmitterChannel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +68,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.lock.json" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>
