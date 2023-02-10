@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.3.3...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.3.6...HEAD)
+
+**Implemented enhancements:**
+
+- General improvements towards aligning with ESP32 IDF API [\#56](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/pull/56)
+
+## [v1.3.6](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/tree/v1.3.6) (2022-12-27)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Hardware.Esp32.Rmt/compare/v1.3.3...v1.3.6)
 
 **Documentation and other chores:**
 
