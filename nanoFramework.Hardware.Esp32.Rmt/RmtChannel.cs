@@ -47,19 +47,29 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Gets the source clock. Only the 80MHz APB clock is currently supported so the value will always be <see cref="SourceClock.APB"/> in the current implementation.
+        /// Gets the source clock type. 
+        /// This is currently fixed to use APB clock so will always be <see cref="SourceClock.APB"/> in the current implementation.
         /// </summary>
         /// <remarks>
-        /// ESP IDF v4.4.3 supports only <see cref="SourceClock.APB"/>. This property cannot be changed.
+        /// ESP IDF v5.1.4 supports only <see cref="SourceClock.APB"/> for ESP32. This property cannot be changed.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
-        public SourceClock SourceClock
+        public static SourceClock SourceClock
         {
             get => SourceClock.APB;
         }
 
         /// <summary>
-        /// The value can be between 1 and 255.
+        /// Returns the actual frequency of the source clock used by the hardware when clock source is set to default. 
+        /// This is currently 80Mhz for all devices except ESP32_H2 which is 32Mhz. This should be used to calculate timings on rmtChannel.
+        /// </summary>
+        public static int SourceClockFrequency
+        {
+            get => NativeGetSourceClockFrequency();
+        }
+
+        /// <summary>
+        /// The value can be between 1 and 255 and affects all RMT channels.
         /// </summary>
         public byte ClockDivider
         {
@@ -112,6 +122,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeSetNumberOfMemoryBlocks(byte value);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private static extern int NativeGetSourceClockFrequency();
 
         #endregion native calls
     }
