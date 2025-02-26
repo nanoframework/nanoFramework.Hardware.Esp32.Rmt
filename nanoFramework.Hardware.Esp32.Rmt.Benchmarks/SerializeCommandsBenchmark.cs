@@ -53,6 +53,12 @@ namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
         };
 
         [Benchmark]
+        public void SerializeCommands_Current()
+        {
+            var serializedCommands = RmtCommandSerializer.SerializeCommands(RmtCommandsArrayList);
+        }
+
+        [Benchmark]
         public void SerializeCommands_Original()
         {
             int i = 0;
