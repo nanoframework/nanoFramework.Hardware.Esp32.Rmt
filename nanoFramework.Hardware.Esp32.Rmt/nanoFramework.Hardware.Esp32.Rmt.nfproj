@@ -13,7 +13,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>nanoFramework.Hardware.Esp32.Rmt</RootNamespace>
     <AssemblyName>nanoFramework.Hardware.Esp32.Rmt</AssemblyName>
     <NF_IsCoreLibrary>True</NF_IsCoreLibrary>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
@@ -35,6 +35,10 @@
     <NF_GenerateStubsDirectory>bin\$(Configuration)\Stubs</NF_GenerateStubsDirectory>
     <NF_GenerateSkeletonProjectName>nanoFramework_hardware_esp32_rmt_native</NF_GenerateSkeletonProjectName>
     <Name>nanoFramework.Hardware.Esp32.Rmt</Name>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>direct</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
   <ItemGroup>
     <NFMDP_PE_ExcludeClassByName Include="ThisAssembly">
@@ -48,6 +52,7 @@
     <Compile Include="ReceiverChannelSettings.cs" />
     <Compile Include="RmtChannel.cs" />
     <Compile Include="RmtChannelSettings.cs" />
+    <Compile Include="RmtCommandSerializer.cs" />
     <Compile Include="SourceClock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RmtCommand.cs" />
@@ -55,19 +60,19 @@
     <Compile Include="TransmitterChannel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib, Version=1.17.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.CoreLibrary.1.17.1\lib\mscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="nanoFramework.Runtime.Events, Version=1.11.30.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.30\lib\nanoFramework.Runtime.Events.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.lock.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.17.1\lib\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.Runtime.Events">
+      <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.30\lib\nanoFramework.Runtime.Events.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>
