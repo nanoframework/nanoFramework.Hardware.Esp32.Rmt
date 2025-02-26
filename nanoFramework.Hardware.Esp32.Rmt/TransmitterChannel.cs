@@ -170,7 +170,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// </summary>
         /// <param name="waitTxDone">If true wait the TX process to end, false function returns without waiting, but if another command is send before the end of the previous process an error will occur.</param>
         public void Send(bool waitTxDone)
-            => SendData(SerializeCommands(), waitTxDone);
+            => SendData(RmtCommandSerializer.SerializeCommands(_commands), waitTxDone);
 
         /// <summary>
         /// Send a RAW data to RMT module
@@ -181,48 +181,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public void SendData(byte[] data, bool waitTxDone)
             => NativeTxWriteItems(data, waitTxDone);
 #pragma warning restore S4200 // Native methods should be wrapped
-
-        /// <summary>
-        /// Serialize commands to rmt_item32_t native byte format
-        /// </summary>
-        /// <returns></returns>
-        private byte[] SerializeCommands()
-        {
-            int i = 0;
-            int remaining;
-            byte[] binaryCommands = new byte[_commands.Count * 4];
-            foreach (var cmd in _commands)
-            {
-                // First pair
-                if ((cmd as RmtCommand).Duration0 <= 255)
-                {
-                    binaryCommands[0 + i] = (byte)(cmd as RmtCommand).Duration0;
-                    binaryCommands[1 + i] = (byte)((cmd as RmtCommand).Level0 == true ? 128 : 0);
-                }
-                else
-                {
-                    remaining = (cmd as RmtCommand).Duration0 % 256;
-                    binaryCommands[0 + i] = (byte)(remaining);
-                    binaryCommands[1 + i] = (byte)(((cmd as RmtCommand).Level0 ? 128 : 0) + (((cmd as RmtCommand).Duration0 - remaining) / 256));
-                }
-
-                // Second pair
-                if ((cmd as RmtCommand).Duration1 <= 255)
-                {
-                    binaryCommands[2 + i] = (byte)(cmd as RmtCommand).Duration1;
-                    binaryCommands[3 + i] = (byte)((cmd as RmtCommand).Level1 ? 128 : 0);
-                }
-                else
-                {
-                    remaining = (cmd as RmtCommand).Duration1 % 256;
-                    binaryCommands[2 + i] = (byte)(remaining);
-                    binaryCommands[3 + i] = (byte)(((cmd as RmtCommand).Level1 ? 128 : 0) + (((cmd as RmtCommand).Duration1 - remaining) / 256));
-                }
-                i += 4;
-            }
-            return binaryCommands;
-        }
-
         #endregion Methods
 
         #region Destructors
