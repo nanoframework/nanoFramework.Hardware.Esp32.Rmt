@@ -1,6 +1,11 @@
-﻿using System.Collections;
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
+
 using nanoFramework.Benchmark;
 using nanoFramework.Benchmark.Attributes;
+using System.Collections;
 
 // ReSharper disable InconsistentNaming
 namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
