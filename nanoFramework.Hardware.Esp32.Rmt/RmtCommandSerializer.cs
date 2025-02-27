@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 #nullable enable
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
-    [ExcludeType]
     internal static class RmtCommandSerializer
     {
         /// <summary>
