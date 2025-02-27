@@ -1,5 +1,9 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
+
+using System.Collections;
 
 #nullable enable
 namespace nanoFramework.Hardware.Esp32.Rmt
@@ -7,9 +11,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     internal static class RmtCommandSerializer
     {
         /// <summary>
-        /// Serialize commands to rmt_item32_t native byte format
+        /// Serialize commands to rmt_item32_t native byte format.
         /// </summary>
-        /// <returns>The serialized commands</returns>
+        /// <returns><see langword="byte"/> array with the serialized commands.</returns>
         public static byte[] SerializeCommands(ArrayList commands)
         {
             var index = 0;
@@ -17,7 +21,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
             for (var i = 0; i < commands.Count; i++)
             {
-                var command = (RmtCommand) commands[i];
+                var command = (RmtCommand)commands[i];
 
                 var highByte1 = (byte)(command.Duration0 >> 8);
                 var lowByte1 = (byte)(command.Duration0 & 0xFF);

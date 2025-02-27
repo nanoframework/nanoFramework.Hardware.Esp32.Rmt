@@ -89,9 +89,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Channel 0 can use at most 8 blocks of memory, accordingly channel 7 can only use one memory block.
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Value cannot be 0 or more than 8.</exception>
-        public byte NumberOfMemoryBlocks 
-        { 
-            get => _numberOfMemoryBlocks; 
+        public byte NumberOfMemoryBlocks
+        {
+            get => _numberOfMemoryBlocks;
             set
             {
                 if (value < 1 || value > 8)
@@ -111,9 +111,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// For receive channels, Incoming <see cref="RmtCommand"/>s are moved to the ring buffer after the <see cref="ReceiverChannelSettings.IdleThreshold"/> has lapsed.
         /// For transmit channels, <see cref="RmtCommand"/>s are automatically copied over to the channel's memory block and written to the transmitter.
         /// </remarks>
-        public int BufferSize 
-        { 
-            get => _bufferSize; 
+        public int BufferSize
+        {
+            get => _bufferSize;
             set => _bufferSize = value;
         }
 
@@ -121,10 +121,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Gets or sets a value indicating if the RMT module should invert the incoming/outgoing signal.
         /// </summary>
         /// <remarks>This works like an external inverter connected to the GPIO of certain RMT channel.</remarks>
-        public bool SignalInverterEnabled 
-        { 
-            get => _signalInverterEnabled; 
-            set => _signalInverterEnabled = value; 
+        public bool SignalInverterEnabled
+        {
+            get => _signalInverterEnabled;
+            set => _signalInverterEnabled = value;
         }
 
         /// <summary>

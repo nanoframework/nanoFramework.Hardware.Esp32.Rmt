@@ -55,9 +55,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Gets or sets the filter state. 
         /// If enabled, the receiver will ignore pulses with widths less than specified in <see cref="FilterThreshold"/>.
         /// </summary>
-        public bool EnableFilter 
-        { 
-            get => _enableFilter; 
+        public bool EnableFilter
+        {
+            get => _enableFilter;
             set => _enableFilter = value;
         }
 
@@ -71,18 +71,18 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 then the clock (80Mhz) will tick at a rate of 1Mhz (80Mhz / 80 = 1Mhz) making each clock tick equal to 1 microsecond.
         /// Therefore, setting <see cref="FilterThreshold"/> to a value like 100 will cause the receiver channel to ignore any pulses that are shorter than 100 microseconds.
         /// </remarks>
-        public byte FilterThreshold 
-        { 
-            get => _filterThreshold; 
+        public byte FilterThreshold
+        {
+            get => _filterThreshold;
             set => _filterThreshold = value;
         }
 
         /// <summary>
         /// Gets or sets the timeout threshold for the <see cref="ReceiverChannel.GetAllItems"/> call. Defaults to 1 second.
         /// </summary>
-        public TimeSpan ReceiveTimeout 
-        { 
-            get => _receiveTimeout; 
+        public TimeSpan ReceiveTimeout
+        {
+            get => _receiveTimeout;
             set => _receiveTimeout = value;
         }
 
@@ -176,7 +176,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _enableDemodulation = true;
             _carrierWaveFrequency = 38_000;
             _carrierWaveDutyPercentage = 33;
-            _carrierLevel= true;
+            _carrierLevel = true;
         }
 
         /// <summary>
@@ -189,10 +189,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _enableFilter = other.EnableFilter;
             _filterThreshold = other.FilterThreshold;
             _receiveTimeout = other.ReceiveTimeout;
-            _enableDemodulation= other.EnableDemodulation;
-            _carrierWaveFrequency= other.CarrierWaveFrequency;
-            _carrierWaveDutyPercentage= other.CarrierWaveDutyPercentage;
-            _carrierLevel= other.CarrierLevel;
+            _enableDemodulation = other.EnableDemodulation;
+            _carrierWaveFrequency = other.CarrierWaveFrequency;
+            _carrierWaveDutyPercentage = other.CarrierWaveDutyPercentage;
+            _carrierLevel = other.CarrierLevel;
         }
     }
 }
