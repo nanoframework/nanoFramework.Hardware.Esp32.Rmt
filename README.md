@@ -92,7 +92,6 @@ txChannelSettings = new TransmitChannelSettings(0)
                 {
                     Channel=1, //0,1 ESP32-C3 ESP32-C6 ESP32-H2 | 1-3 ESP32-S3
                     ...
-
 ```                    
                     
 ## Build status
