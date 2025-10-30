@@ -94,7 +94,6 @@ txChannelSettings = new TransmitChannelSettings(0)
                     ...
 
 ```                    
-
                     
 ## Build status
 
