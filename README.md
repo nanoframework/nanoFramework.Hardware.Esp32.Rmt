@@ -82,6 +82,7 @@ If you get Exception initializing  TX or RX Channel maybe you have to set the ch
 - The ESP32-S2 has 4 channels, each of them can be either receiver or transmitter.
 - The ESP32-S3 has 8 channels, Channel<0>-Channel<3> hardcoded for transmitting signals and Channel<4>-Channel<7> hardcoded for receiving signals.
 Based on this you can specify the channel in settings:
+
 ```
 rxChannelSettings = new ReceiverChannelSettings(0)
                 {
