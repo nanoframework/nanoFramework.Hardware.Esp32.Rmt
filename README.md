@@ -74,7 +74,8 @@ rxChannel.Start(clearBuffer: true);
 ```
 
 ## Esp Boards and available channels
-If you get Exception initializing  TX or RX Channel maybe you have to set the channel based on your ESP32 board version:
+If you get Exception initializing TX or RX Channel, you have to set the channel based on your ESP32 board version:
+
 - The ESP32 has 8 channels, each of them can be either receiver or transmitter (this is ok for no channel specification, first free channel is ok)
 - The ESP32-C3 has 4 channels, Channel<0> and Channel<1> hardcoded for transmitting signals and Channel<2> and Channel<3> hardcoded for receiving signals.
 - The ESP32-C6 has 4 channels, Channel<0> and Channel<1> hardcoded for transmitting signals and Channel<2> and Channel<3> hardcoded for receiving signals.
