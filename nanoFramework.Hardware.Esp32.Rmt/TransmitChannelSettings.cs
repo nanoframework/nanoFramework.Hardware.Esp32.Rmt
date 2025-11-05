@@ -144,7 +144,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="channel">The channel number to use. Valid value range is 0 to 7 (inclusive).</param>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="pinNumber"/> must not be between 34 and 39.</exception>"
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="pinNumber"/> must not be between 34 and 39.</exception>
         public TransmitChannelSettings(int channel, int pinNumber) : base(channel, pinNumber)
         {
             // ESP32 RMT TX channels cannot use GPIO pins 34-39
