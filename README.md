@@ -73,6 +73,10 @@ using var rxChannel = new ReceiverChannel(rxChannelSettings);
 rxChannel.Start(clearBuffer: true);
 ```
 
+## GPIO Pin Restrictions
+
+The ESP32 MCU restricts which GPIO pins can be used for the Transmit Channel (TX). Ports 34 to 39 (inclusive) cannot be used for TX. Attempting to use these ports will cause the `TransmitChannelSettings` class to throw an `ArgumentOutOfRangeException`.
+
 ## Build status
 
 | Component | Build Status | NuGet Package |
