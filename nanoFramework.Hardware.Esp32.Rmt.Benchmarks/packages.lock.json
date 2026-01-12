@@ -10,9 +10,9 @@
       },
       "nanoFramework.CoreLibrary": {
         "type": "Direct",
-        "requested": "[2.0.0-preview.32, 2.0.0-preview.32]",
-        "resolved": "2.0.0-preview.32",
-        "contentHash": "DZ0CI92bJCTQ+2pGJiRxcqYEzmjMppg2elFZEZCGB6kUPjUoGV8o+NnFb5bn2X0Nl+b+8Wq5BLzGBbn8C05oKQ=="
+        "requested": "[2.0.0-preview.33, 2.0.0-preview.33]",
+        "resolved": "2.0.0-preview.33",
+        "contentHash": "VVr+TmThdBt9zzXFzFewB5GUsNm2BE8+/3OtaCiJVg76v0Wr87A0Mi6R74hm78otfIhPJ66aPaRd+fA23dmJjQ=="
       },
       "nanoFramework.Logging": {
         "type": "Direct",
@@ -22,15 +22,15 @@
       },
       "nanoFramework.Runtime.Native": {
         "type": "Direct",
-        "requested": "[2.0.0-preview.17, 2.0.0-preview.17]",
-        "resolved": "2.0.0-preview.17",
-        "contentHash": "XkGNYxteY3hXDrKrMuWWejSgWUS4qgkKz+Gc6a8IFgInNuVdaPsdl2cHyCwnHQzzUp454GBZKzvq+YayUGws4A=="
+        "requested": "[2.0.0-preview.18, 2.0.0-preview.18]",
+        "resolved": "2.0.0-preview.18",
+        "contentHash": "+xpG8ru6dGxC9UL/97sAa6uJF0O3Ivgh1UPixMREQxgzLLZFaqpOnij7ZzGuWO7ags2TwEm5pTmlk9AOBpfBkg=="
       },
       "nanoFramework.System.Collections": {
         "type": "Direct",
-        "requested": "[2.0.0-preview.5, 2.0.0-preview.5]",
-        "resolved": "2.0.0-preview.5",
-        "contentHash": "Ll+n1CU45UYpIkbEppTRRke4VGmNbq0qBmPwtRGsJbqXNi/jYG+t2huTIinpHQXF2r0nhKUY3BLrEX9ZYNK7Sw=="
+        "requested": "[2.0.0-preview.6, 2.0.0-preview.6]",
+        "resolved": "2.0.0-preview.6",
+        "contentHash": "3A1BTu/8db8vlmu/TflJ/TtToyyL0M3fiAHxFNYX02lmOr9XQ3YkYESa9m7yRb9nIBoUZbOhtgf5ufbvdPt5ug=="
       },
       "nanoFramework.System.Diagnostics.Stopwatch": {
         "type": "Direct",
@@ -40,9 +40,9 @@
       },
       "nanoFramework.System.Text": {
         "type": "Direct",
-        "requested": "[2.0.0-preview.5, 2.0.0-preview.5]",
-        "resolved": "2.0.0-preview.5",
-        "contentHash": "bSok7uDsUnic+RmoYo660XNlQhD631CrpIDUweiJtjuOtsNmwV4bwV28Xs0gpYF4xidYKUEk3nxt5lXU6ekATw=="
+        "requested": "[2.0.0-preview.6, 2.0.0-preview.6]",
+        "resolved": "2.0.0-preview.6",
+        "contentHash": "/A9M9sGW8rsAg6YF81quWV9MvQseKWZodf+pK6lp3Bw12NkXwgwiAo1+9geJQFwDsqi2L9BcLb3IIs/BerGTbQ=="
       }
     }
   }
