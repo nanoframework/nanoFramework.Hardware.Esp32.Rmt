@@ -3,6 +3,8 @@
 // See LICENSE file in the project root for full license information.
 //
 
+// Ignore Spelling: nano Rmt
+
 using System;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
@@ -16,28 +18,31 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// </remarks>
     public sealed class ReceiverChannelSettings : RmtChannelSettings
     {
-        private ushort _idleThreshold;
-        private bool _enableFilter;
-        private byte _filterThreshold;
+        private UInt32 _idleThreshold;
+        private UInt32 _filterThreshold;
         private TimeSpan _receiveTimeout;
         private bool _enableDemodulation;
         private int _carrierWaveFrequency;
-        private byte _carrierWaveDutyPercentage;
+        private float _carrierWaveDutyPercentage;
         private bool _carrierLevel;
-
+        private int _bufferSize;
 
         /// <summary>
-        /// Gets or sets the idle threshold after which the receiver will go into idle mode 
-        /// and <see cref="RmtCommand"/>s are copied into the ring buffer and availble to your code. This is measured by number of clock ticks (after applying the clock divider).
+        /// <para>Gets or sets the idle threshold after which the receiver will go into idle mode and the receive will complete.</para>
         /// </summary>
         /// <remarks>
-        /// The receive process finishes(goes idle) when no edges have been detected for the specified <see cref="IdleThreshold"/> clock cycles.
-        /// Supported value range between 1 and 65535 (0xFFFF).
-        /// The RMT Module's clock ticks at a rate of 80Mhz. If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 for example, then a clock tick is equal to 1 microsecond (80Mhz / 80 = 1Mhz = 1us).
-        /// So setting this property to a value of 200 means the threshold is 200us.
+        /// <para>The receive process finishes(goes idle) when no edges have been detected for the specified nanoseconds.</para>
+        /// <para>So setting this property to a value of 200000 means the threshold is 200us.</para>
+        /// 
+        /// <para>Value cannot be set to 0 or greater than the maximum value supported by the specific ESP32 target. 
+        /// Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets, this value is called signal_range_max_ns in the docs.</para>
+        /// <para>Typically the value can not be set higher then 32,767,000,000,000 / channel resolution. Exception given on starting receive operation.</para>
+        /// <para>For a resolution of 1Mhz, the maximum value is 32,767,000. (32.767ms)</para>
+        /// 
         /// </remarks>
-        /// <exception cref="ArgumentOutOfRangeException">Value cannot be set to 0 or less</exception>
-        public ushort IdleThreshold
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
+        public UInt32 IdleThreshold
         {
             get => _idleThreshold;
             set
@@ -52,33 +57,24 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Gets or sets the filter state. 
-        /// If enabled, the receiver will ignore pulses with widths less than specified in <see cref="FilterThreshold"/>.
-        /// </summary>
-        public bool EnableFilter
-        {
-            get => _enableFilter;
-            set => _enableFilter = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the threshold, in clock ticks, of the filter.
-        /// when <see cref="EnableFilter"/> is set to <see langword="true"/> It will ignore pulses shorter than the specified threshold.
-        /// The acceptable range of values is 0 to 255 clock ticks.
+        /// <para>Gets or sets the minimum valid pulse duration for either high or low levels, specified in nanoseconds.</para>
+        /// <para>It will ignore pulses shorter than the specified value.</para>
         /// </summary>
         /// <remarks>
-        /// Example:
-        /// If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 then the clock (80Mhz) will tick at a rate of 1Mhz (80Mhz / 80 = 1Mhz) making each clock tick equal to 1 microsecond.
-        /// Therefore, setting <see cref="FilterThreshold"/> to a value like 100 will cause the receiver channel to ignore any pulses that are shorter than 100 microseconds.
+        /// <para>Setting to a value like 100000 will cause the receiver channel to ignore any pulses that are shorter than 100 microseconds.</para>
+        /// <para>The maximum value depends on the hardware capabilities of the specific ESP32 target.
+        /// For a clock of 80mhz, the maximum value is 3199. (3.199us). Exception given on starting receive operation.</para>
+        /// <para>Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets, this value is called signal_range_min_ns in the docs.</para>
         /// </remarks>
-        public byte FilterThreshold
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public UInt32 FilterThreshold
         {
             get => _filterThreshold;
             set => _filterThreshold = value;
         }
 
         /// <summary>
-        /// Gets or sets the timeout threshold for the <see cref="ReceiverChannel.GetAllItems"/> call. Defaults to 1 second.
+        /// Gets or sets the timeout threshold for the <see cref="ReceiverChannel.Receive"/> call. Defaults to 1 second.
         /// </summary>
         public TimeSpan ReceiveTimeout
         {
@@ -121,11 +117,11 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Gets or sets the carrier wave duty cycle percentage. Only applicable when <see cref="EnableDemodulation"/> is set to <see langword="true" />.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 1 or greater than 100.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 0 or greater than 100.</exception>
         /// <remarks>
         /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
         /// </remarks>
-        public byte CarrierWaveDutyPercentage
+        public float CarrierWaveDutyPercentage
         {
             get => _carrierWaveDutyPercentage;
             set
@@ -153,30 +149,44 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReceiverChannelSettings"/> class.
+        /// Gets or sets the RMT Receive Buffer size.
         /// </summary>
-        /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
-        /// <remarks>This constructor will use the next available RMT channel starting from channel 0 and up to channel 7.</remarks>
-        public ReceiverChannelSettings(int pinNumber) : this(channel: -1, pinNumber)
+        /// <remarks>
+        /// Incoming <see cref="RmtSymbol"/>s are saved in the buffer. Any <see cref="RmtSymbol"/>s when full will be ignored.
+        /// Receive of <see cref="RmtSymbol"/> completes after the <see cref="ReceiverChannelSettings.IdleThreshold"/> has lapsed.
+        /// </remarks>
+        public int BufferSize
         {
+            get => _bufferSize;
+            set => _bufferSize = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReceiverChannelSettings"/> class.
+        /// Initializes a new instance of the <see cref="ReceiverChannelSettings"/> class using default settings.
         /// </summary>
-        /// <param name="channel">The channel number to use. Valid value range is 0 to 7 (inclusive).</param>
+        /// <remarks>
+        /// <para>Default settings:</para>
+        /// <list type="bullet">
+        /// <item><description>IdleThreshold = 12000000 (12ms)</description></item>
+        /// <item><description>FilterThreshold = 1200 (1.2us)</description></item>
+        /// <item><description>ReceiveTimeout = 1 second</description></item>
+        /// <item><description>EnableDemodulation = true</description></item>
+        /// <item><description>CarrierWaveFrequency = 38_000</description></item>
+        /// <item><description>CarrierWaveDutyPercentage = 33</description></item>
+        /// <item><description>CarrierLevel = true</description></item>
+        /// </list>
+        /// </remarks>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
-        public ReceiverChannelSettings(int channel, int pinNumber) : base(channel, pinNumber)
+        public ReceiverChannelSettings(int pinNumber) : base(pinNumber)
         {
-            _idleThreshold = 12_000; //12ms
-            _enableFilter = true;
-            _filterThreshold = 100;
+            _idleThreshold = 12000000; //12ms
+            _filterThreshold = 1200;   // 1.2us
             _receiveTimeout = TimeSpan.FromSeconds(1);
             _enableDemodulation = true;
             _carrierWaveFrequency = 38_000;
             _carrierWaveDutyPercentage = 33;
             _carrierLevel = true;
+            _bufferSize = 100; // hold 100 RMT symbols.
         }
 
         /// <summary>
@@ -186,13 +196,13 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         internal ReceiverChannelSettings(ReceiverChannelSettings other) : base(other)
         {
             _idleThreshold = other.IdleThreshold;
-            _enableFilter = other.EnableFilter;
             _filterThreshold = other.FilterThreshold;
             _receiveTimeout = other.ReceiveTimeout;
             _enableDemodulation = other.EnableDemodulation;
             _carrierWaveFrequency = other.CarrierWaveFrequency;
             _carrierWaveDutyPercentage = other.CarrierWaveDutyPercentage;
             _carrierLevel = other.CarrierLevel;
+            _bufferSize = other.BufferSize;
         }
     }
 }

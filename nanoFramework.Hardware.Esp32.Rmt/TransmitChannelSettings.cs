@@ -19,7 +19,8 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private bool _enableCarrierWave;
         private bool _carrierLevel;
         private int _carrierWaveFrequency;
-        private byte _carrierWaveDutyPercentage;
+        private float _carrierWaveDutyPercentage;
+        private bool _carrierAlwaysOn;
         private bool _enableLooping;
         private int _loopCount;
         private bool _enableIdleLevelOutput;
@@ -64,13 +65,13 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Gets or sets the carrier wave duty cycle percentage.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 1 or greater than 100.</exception>
-        public byte CarrierWaveDutyPercentage
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot 0 or less or greater than 100.</exception>
+        public float CarrierWaveDutyPercentage
         {
             get => _carrierWaveDutyPercentage;
             set
             {
-                if (value < 1 || value > 100)
+                if (value <= 0 || value > 100)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -80,7 +81,17 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to enable or disable looping through the ring buffer when transmitting <see cref="RmtCommand"/>s.
+        /// Gets or Sets the carrier always on flag.
+        /// When true the carrier will be output when there is no transmission.
+        /// </summary>
+        public bool CarrierAlwaysOn
+        {
+            get => _carrierAlwaysOn;
+            set => _carrierAlwaysOn = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable or disable looping through the ring buffer when transmitting <see cref="RmtSymbol"/>s.
         /// </summary>
         public bool EnableLooping
         {
@@ -132,24 +143,13 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Initializes a new instance of the <see cref="TransmitChannelSettings"/> class.
         /// </summary>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
-        /// <remarks>This constructor will use the next available RMT channel starting from channel 0 and up to channel 7.</remarks>
-        public TransmitChannelSettings(int pinNumber) : this(channel: -1, pinNumber)
+        public TransmitChannelSettings(int pinNumber) : base(pinNumber)
         {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TransmitChannelSettings"/> class.
-        /// </summary>
-        /// <param name="channel">The channel number to use. Valid value range is 0 to 7 (inclusive).</param>
-        /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="channel"/> must be between 0 and 7.</exception>
-        public TransmitChannelSettings(int channel, int pinNumber) : base(channel, pinNumber)
-        {
-            _enableCarrierWave = true;
+            _enableCarrierWave = false;
             _carrierLevel = true;
             _carrierWaveFrequency = 38_000;
             _carrierWaveDutyPercentage = 33;
+            _carrierAlwaysOn = false;
 
             _enableLooping = false;
             _loopCount = 1;
