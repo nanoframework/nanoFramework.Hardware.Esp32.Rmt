@@ -3,13 +3,14 @@
 // See LICENSE file in the project root for full license information.
 //
 
+// Ignore Spelling: nano Rmt µs
+
 using System;
-using System.Runtime.CompilerServices;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
     /// <summary>
-    /// Base class for a RMT channel
+    /// Base class for a RMT channel.
     /// </summary>
     public abstract class RmtChannel
     {
@@ -24,16 +25,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         #endregion Fields
 
         /// <summary>
-        /// Gets the current <see cref="ChannelMode"/> for this instance.
-        /// </summary>
-        public abstract ChannelMode Mode { get; }
-
-        /// <summary>
-        /// Gets the channel number for this instance.
-        /// </summary>
-        public int Channel => _settings.Channel;
-
-        /// <summary>
         /// Gets or sets the GPIO pin used with the current channel.
         /// </summary>
         public int Pin
@@ -41,43 +32,20 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             get => _settings.PinNumber;
             set
             {
-                NativeSetGpioPin(Channel, (byte)Mode, value, invertSignal: false);
                 _settings.PinNumber = value;
             }
         }
 
         /// <summary>
-        /// Gets the source clock type. 
-        /// This is currently fixed to use APB clock so will always be <see cref="SourceClock.APB"/> in the current implementation.
+        /// Gets or Sets the resolution of the internal tick counter. This effects all RMT channels.
+        /// The default value is 1000000 (1Mhz) giving a tick period of 1 µs.
         /// </summary>
-        /// <remarks>
-        /// ESP IDF v5.1.4 supports only <see cref="SourceClock.APB"/> for ESP32. This property cannot be changed.
-        /// </remarks>
-        /// <exception cref="NotSupportedException"></exception>
-        public static SourceClock SourceClock
+        public int ResolutionHz
         {
-            get => SourceClock.APB;
-        }
-
-        /// <summary>
-        /// Returns the actual frequency of the source clock used by the hardware when clock source is set to default. 
-        /// This is currently 80Mhz for all devices except ESP32_H2 which is 32Mhz. This should be used to calculate timings on rmtChannel.
-        /// </summary>
-        public static int SourceClockFrequency
-        {
-            get => NativeGetSourceClockFrequency();
-        }
-
-        /// <summary>
-        /// The value can be between 1 and 255 and affects all RMT channels.
-        /// </summary>
-        public byte ClockDivider
-        {
-            get => _settings.ClockDivider;
+            get => _settings.ResolutionHz;
             set
             {
-                NativeSetClockDivider(value);
-                _settings.ClockDivider = value;
+                _settings.ResolutionHz = value;
             }
         }
 
@@ -85,19 +53,29 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Gets or sets the number of memory blocks available to the current channel.
         /// </summary>
         /// <remarks>
-        /// This function is used to configure the amount of memory blocks allocated to a channel.
-        /// The 8 channels share a 512x32-bit RAM block which can be read and written by the processor cores over the APB bus,
-        /// as well as read by the transmitters and written by the receivers.
-        /// This means that every channel gets a single memory block equaling 64x32-bit.
-        /// If memory block number of one channel is set to a value greater than 1, this channel will occupy the memory block of the next channel.
-        /// Channel 0 can use at most 8 blocks of memory, accordingly channel 7 can only use one memory block.
+        /// <para>This function is used to configure the number of memory blocks allocated to a channel.
+        /// The size of the memory block depends on the target ESP32 and is normally 64x32-bit or 48x32-bit, and the maximum 
+        /// number of blocks that can be allocated is the number of channels available on target. </para>
+        /// <para>List of memory block sizes for various ESP32 targets:</para>
+        /// <list type="bullet">
+        /// <item><description>ESP32: 8 Channels of 64x32-bit = 512x32-bit RAM block total</description></item>
+        /// <item><description>ESP32_S2: 8 Channels of 64x32-bit = 512x32-bit RAM</description></item>
+        /// <item><description>ESP32_S3: 8 Channels of 64x32-bit = 512x32-bit RAM</description></item>
+        /// <item><description>ESP32_C3: 4 Channels of 48x32-bit = 192x32-bit RAM</description></item>
+        /// <item><description>ESP32_C5: 4 Channels of 48x32-bit = 192x32-bit RAM</description></item>
+        /// <item><description>ESP32_C6: 4 Channels of 48x32-bit = 192x32-bit RAM</description></item>
+        /// <item><description>ESP32_P4: 8 Channels of 48x32-bit = 384x32-bit RAM</description></item>
+        /// <item><description>ESP32_H2: 4 Channels of 48x32-bit = 192x32-bit RAM</description></item>
+        /// </list>
+        /// <para>This means that every channel gets a single memory block equaling 64x32-bit or 48x32-bit.
+        /// If the number of memory blocks of one channel is set to a value greater than 1, this channel will occupy the memory block of the next channel.
+        /// The first Channel can use at most 8/4 blocks of memory, accordingly last channel can only use one memory block.</para>
         /// </remarks>
         public byte NumberOfMemoryBlocks
         {
             get => _settings.NumberOfMemoryBlocks;
             set
             {
-                NativeSetNumberOfMemoryBlocks(value);
                 _settings.NumberOfMemoryBlocks = value;
             }
         }
@@ -111,21 +89,5 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         {
             _settings = settings ?? throw new ArgumentNullException();
         }
-
-        #region native calls
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeSetGpioPin(int channel, byte mode, int pin, bool invertSignal);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeSetClockDivider(byte value);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeSetNumberOfMemoryBlocks(byte value);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern int NativeGetSourceClockFrequency();
-
-        #endregion native calls
     }
 }

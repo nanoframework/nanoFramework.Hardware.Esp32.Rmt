@@ -37,7 +37,7 @@
     <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="RmtCommandSerializerTests.cs" />
+    <Compile Include="RmtObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
