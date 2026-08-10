@@ -129,7 +129,7 @@ rx.Start();
 
 while(true)
 {
-    RmtSymbols received = rx.TryGetReceivedSymbols()
+    RmtSymbols received = rx.TryGetReceivedSymbols();
     if (received != null)
     {
         // process received symbols
@@ -164,7 +164,7 @@ are run in order using passed or embedded data.
 Sends raw RMT symbols:
 
 ```csharp
-var copy = new CopyEncoderSettings(new[]
+var copyEnc = new CopyEncoderSettings(new[]
 {
     new RmtSymbol(10, true, 20, false)
 });
@@ -203,7 +203,7 @@ tx.SendWithEncoders(data);
 ```
 
 The EncoderSettings array defines the Encoders to use on the pipeline.
-With the SendWithEncoder you pass an array of EncoderData[] which defines the 
+With the SendWithEncoders you pass an array of EncoderData[] which defines the 
 data to be supplied to each encoder defined on the Transmitter channel. 
 
 if the EncoderData is null no data is supplied to that encoder. 
@@ -356,7 +356,7 @@ Supports multi‐stage encoding pipelines.
 
 High‐level helper for WS2812/SK6812 LED strips.
 
-✔ New Utils.DecodeSymbolArrayToBytes()
+✔ New RmtUtils.DecodeSymbolArrayToBytes()
 
 Decodes received RMT symbols into bytes — ideal for IR protocol decoding.
 

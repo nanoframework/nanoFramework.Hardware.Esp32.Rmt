@@ -157,6 +157,12 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
+        /// Return underlying rmt channel.
+        /// Can be used to pass to TransmitSyncManager to synchronize led channels.
+        /// </summary>
+        public TransmitterEncodedChannel Channel { get { return _transmitChannel; } }
+        
+        /// <summary>
         /// Send Led data to the strip. Data should be in correct color format, 3 bytes per led, and in the order of LEDS on the strip.
         /// </summary>
         /// <param name="ledData">Array of bytes representing the LED data.</param>

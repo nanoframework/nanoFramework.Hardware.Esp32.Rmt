@@ -34,6 +34,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// </summary>
         public RmtSymbol Bit1 => _bit1;
 
+        /// <summary>
+        /// Gets the length of the byte array.
+        /// </summary>
+        public int ByteLength => _byteLen;
 
         /// <summary>
         /// Construct a ByteEncoderSettings object.
@@ -49,6 +53,11 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _bit0 = bit0;
             _bit1 = bit1;
             _msbFirst = msbFirst;
+
+            if (byteLength < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
             _byteLen = byteLength;
         }
     }

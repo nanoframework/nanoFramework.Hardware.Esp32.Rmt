@@ -14,14 +14,14 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     public class TransmitSyncManager : IDisposable
     {
         private bool disposedValue;
-        private TransmitterChannel[] _txChannelArray;
+        private TransmitterEncodedChannel[] _txChannelArray;
 
         /// <summary>
         /// Create Sync manager object to synchronize sending from an array of channels.
         /// </summary>
         /// <param name="TxChannelArray"></param>
         /// <exception cref="ArgumentException">Thrown when TxChannelArray is null or has less than 2 channels.</exception>
-        public TransmitSyncManager(TransmitterChannel[] TxChannelArray)
+        public TransmitSyncManager(TransmitterEncodedChannel[] TxChannelArray)
         {
             if (TxChannelArray == null || TxChannelArray.Length < 2)
             {
