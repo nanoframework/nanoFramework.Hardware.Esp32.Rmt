@@ -168,6 +168,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             _carrierLevel = other.CarrierLevel;
             _carrierWaveFrequency = other.CarrierWaveFrequency;
             _carrierWaveDutyPercentage = other.CarrierWaveDutyPercentage;
+            _carrierAlwaysOn = other.CarrierAlwaysOn;
 
             _enableLooping = other.EnableLooping;
             _loopCount = other.LoopCount;

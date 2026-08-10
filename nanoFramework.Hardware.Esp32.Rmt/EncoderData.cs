@@ -20,7 +20,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Construct EncoderData object with data and loop parameters. 
         /// </summary>
-        /// <param name="data">Data ti pass to encoder</param>
+        /// <param name="data">Data to pass to encoder</param>
         /// <param name="loop">Number times to loop data on output, default = 1</param>
         public EncoderData(byte[] data, int loop = 1)
         {
@@ -42,6 +42,18 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Default is 1 loop.
         /// This is good for repeating a pattern without having to load the repeated pattern into the data.
         /// </summary>
-        public int Loop { get => _loop; set => _loop = value; }
+        public int Loop
+        {
+            get => _loop;
+            set
+            {
+                if (value < 1)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _loop = value;
+            }
+        }
     }
 }

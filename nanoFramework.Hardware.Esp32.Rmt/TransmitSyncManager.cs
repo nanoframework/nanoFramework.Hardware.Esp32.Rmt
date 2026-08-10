@@ -20,8 +20,14 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Create Sync manager object to synchronize sending from an array of channels.
         /// </summary>
         /// <param name="TxChannelArray"></param>
+        /// <exception cref="ArgumentException">Thrown when TxChannelArray is null or has less than 2 channels.</exception>
         public TransmitSyncManager(TransmitterChannel[] TxChannelArray)
         {
+            if (TxChannelArray == null || TxChannelArray.Length < 2)
+            {
+                throw new ArgumentException();
+            }
+
             _txChannelArray = TxChannelArray;
 
             Int32[] channelHandles = new Int32[TxChannelArray.Length];

@@ -43,10 +43,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Create new rmt Symbol.
         /// </summary>
-        /// <param name="duration0"></param>
-        /// <param name="level0"></param>
-        /// <param name="duration1"></param>
-        /// <param name="level1"></param>
+        /// <param name="duration0">Duration of the first level, in RMT channel ticks. Maximum value is 32767.</param>
+        /// <param name="level0">Value of the first level. <see langword="true"/> = HIGH.</param>
+        /// <param name="duration1">Duration of the second level, in RMT channel ticks. Maximum value is 32767.</param>
+        /// <param name="level1">Value of the second level. <see langword="true"/> = HIGH.</param>
         public RmtSymbol(ushort duration0, bool level0, ushort duration1, bool level1)
         {
             Duration0 = duration0;
@@ -106,7 +106,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Check if the given duration exceeds max duration, Maximum supported duration is 32768.
+        /// Check if the given duration exceeds max duration, Maximum supported duration is 32767.
         /// </summary>
         /// <param name="duration"></param>
         private static void CheckDuration(ushort duration)

@@ -61,6 +61,24 @@ namespace nanoFramework.Hardware.Esp32.Rmt.UnitTests
                 () => { var _ = symbols[5]; });
         }
 
+        [TestMethod]
+        public void RmtSymbols_SerializeReflectsMutations()
+        {
+            var symbols = new RmtSymbols();
+            symbols.Add(new RmtSymbol(5, true, 6, false));
+
+            var first = symbols.Serialize();
+            Assert.AreEqual(4, first.Length);
+
+            // Adding a symbol must invalidate the cached native buffer.
+            symbols.Add(new RmtSymbol(7, false, 8, true));
+            Assert.AreEqual(8, symbols.Serialize().Length);
+
+            // Replacing a symbol must invalidate the cached native buffer.
+            symbols[0] = new RmtSymbol(9, false, 10, true);
+            var updated = symbols.Serialize();
+            Assert.AreEqual((byte)9, updated[0]);
+        }
         // ------------------------------------------------------------
         //  ByteEncoderSettings
         // ------------------------------------------------------------

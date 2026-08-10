@@ -62,8 +62,8 @@ for each ESP32 type.
 
 ```csharp
 var symbol = new RmtSymbol(
-    duration1: 10, level1: true,
-    duration2: 20, level2: false);
+    duration0: 10, level0: true,
+    duration1: 20, level1: false);
 ```
 Each symbol represents:
 
@@ -91,7 +91,7 @@ var settings = new TransmitChannelSettings(pinNumber: 18)
 var tx = new TransmitterChannel(settings);
 ```
 The size of the memory block depends on the target and is normally 64 or 48 symbols. If you specify
-more then one then it takes memory from other channels and will reduce the number of channels that
+more than one then it takes memory from other channels and will reduce the number of channels that
 can be opened.
 
 The TransmitterChannel class will automatically select the next best channel available for you. If no more

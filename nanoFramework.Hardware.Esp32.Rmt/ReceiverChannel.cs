@@ -109,7 +109,12 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// </returns>
         public RmtSymbols Receive()
         {
-            return new RmtSymbols(NativeReceive());
+            RmtSymbol[] symbols = NativeReceive();
+            if (symbols == null || symbols.Length == 0)
+            {
+                return null;
+            }
+            return new RmtSymbols(symbols);
         }
 
         #region Destructor

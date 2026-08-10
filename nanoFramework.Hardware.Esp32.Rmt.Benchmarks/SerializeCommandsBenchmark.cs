@@ -60,6 +60,8 @@ namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
         [Benchmark]
         public void SerializeCommands_Current()
         {
+            // Invalidate the cached native buffer
+            RmtSymbolsArrayList[0] = Sk6812_OnePulse;
             var serializedCommands = RmtSymbolsArrayList.Serialize();
         }
 
@@ -92,7 +94,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
             int i = 0;
             int remaining;
             byte[] binaryCommands = new byte[RmtSymbolsArrayList.Count * 4];
-            foreach (var cmd in RmtSymbolsArrayList.Symbols)
+            foreach (var cmd in RmtSymbolsArrayList)
             {
                 // First pair
                 if ((cmd as RmtSymbol).Duration0 <= 255)

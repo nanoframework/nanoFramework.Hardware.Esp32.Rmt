@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RmtUtils.cs" />
     <Compile Include="TransmitChannelSettings.cs" />
-    <Compile Include="TransmiterEncodedChannel.cs" />
+    <Compile Include="TransmitterEncodedChannel.cs" />
     <Compile Include="TransmitSyncManager.cs" />
     <Compile Include="TransmitterChannel.cs" />
   </ItemGroup>

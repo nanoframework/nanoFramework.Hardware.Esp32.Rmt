@@ -38,17 +38,17 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Construct a ByteEncoderSettings object.
         /// </summary>
-        /// <param name="Bit0">A Rmt symbol with the representation of the 0 bit.</param>
-        /// <param name="Bit1">A Rmt symbol with the representation of the 1 bit.</param>
-        /// <param name="MsbFirst">True if the most significant bit is first. Bit 7 of the byte.</param>
+        /// <param name="bit0">A Rmt symbol with the representation of the 0 bit.</param>
+        /// <param name="bit1">A Rmt symbol with the representation of the 1 bit.</param>
+        /// <param name="msbFirst">True if the most significant bit is first. Bit 7 of the byte.</param>
         /// <param name="byteLength">Length of data to be handled by encoder for multi stage encoding.
         /// If set to 0 then all remaining data in send will be processed. (default = 0)
         /// </param>
-        public ByteEncoderSettings(RmtSymbol Bit0, RmtSymbol Bit1, bool MsbFirst, int byteLength = 0) : base(EncoderType.Byte)
+        public ByteEncoderSettings(RmtSymbol bit0, RmtSymbol bit1, bool msbFirst, int byteLength = 0) : base(EncoderType.Byte)
         {
-            _bit0 = Bit0;
-            _bit1 = Bit1;
-            _msbFirst = MsbFirst;
+            _bit0 = bit0;
+            _bit1 = bit1;
+            _msbFirst = msbFirst;
             _byteLen = byteLength;
         }
     }

@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-// Ignore Spelling: nano Rmt Utils
+// Ignore Spelling: nano Rmt RmtUtils msbFirst
 
 using System;
 using System.Runtime.CompilerServices;
@@ -13,7 +13,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// <summary>
     /// Static class contains general utilities related to coding and decoding RMT data.
     /// </summary>
-    public static class Utils
+    public static class RmtUtils
     {
         #region Native calls
 
@@ -51,7 +51,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// </param>
         /// <returns>
         /// A byte array containing the decoded bit stream, packed sequentially from the
-        /// selected symbols. The array length is <c>(symbolLength + 7) / 8</c>.
+        /// selected symbols. The array length is <c>(count + 7) / 8</c>, where <c>count</c> is the
+        /// number of decoded symbols. When <paramref name="symbolLength"/> is -1, <c>count</c> is
+        /// <c>symbols.Length - symbolOffset</c>.
         /// </returns>
         [MethodImpl(MethodImplOptions.InternalCall)]
         public static extern byte[] DecodeSymbolArrayToBytes(

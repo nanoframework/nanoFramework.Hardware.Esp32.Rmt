@@ -161,7 +161,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// </summary>
         /// <param name="ledData">Array of bytes representing the LED data.</param>
         /// <param name="RepeatDataCount">Number of times to output data. 
-        /// This can be used to set each LED with same info or repeat sequence along whole string.
+        /// This can be used to set each LED with same info or repeat pattern along whole string.
         /// </param>
         /// <param name="waitToComplete">Wait for </param>
         public void SendLedData(byte[] ledData, int RepeatDataCount = 1, bool waitToComplete = true)

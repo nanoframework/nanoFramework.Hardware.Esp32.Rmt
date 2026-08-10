@@ -66,7 +66,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// For a clock of 80mhz, the maximum value is 3199. (3.199us). Exception given on starting receive operation.</para>
         /// <para>Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets, this value is called signal_range_min_ns in the docs.</para>
         /// </remarks>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public UInt32 FilterThreshold
         {
             get => _filterThreshold;
@@ -117,7 +116,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <summary>
         /// Gets or sets the carrier wave duty cycle percentage. Only applicable when <see cref="EnableDemodulation"/> is set to <see langword="true" />.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Value cannot be less that 0 or greater than 100.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Value cannot be 0 or less, greater than 100.</exception>
         /// <remarks>
         /// This configuration is not available on the base ESP32 target and will be ignored. Please refer to the ESP32 IDF docs for more information on feature availability for the various ESP32 targets.
         /// </remarks>
@@ -126,7 +125,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             get => _carrierWaveDutyPercentage;
             set
             {
-                if (value < 1 || value > 100)
+                if (value <= 0 || value > 100)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -158,7 +157,14 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public int BufferSize
         {
             get => _bufferSize;
-            set => _bufferSize = value;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }   
+                _bufferSize = value;
+            }
         }
 
         /// <summary>
@@ -174,6 +180,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <item><description>CarrierWaveFrequency = 38_000</description></item>
         /// <item><description>CarrierWaveDutyPercentage = 33</description></item>
         /// <item><description>CarrierLevel = true</description></item>
+        /// <item><description>BufferSize = 100</description></item>
         /// </list>
         /// </remarks>
         /// <param name="pinNumber">The GPIO Pin number to use with the channel.</param>

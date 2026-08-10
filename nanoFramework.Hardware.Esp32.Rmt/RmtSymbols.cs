@@ -50,9 +50,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public int Count => _symbols.Count;
 
         /// <summary>
-        /// Get internal ArrayList object to allow enumeration of RmtSymbols using foreach loop.
+        /// Gets the internal ArrayList object.
         /// </summary>
-        public ArrayList Symbols => _symbols;
+        internal ArrayList Symbols => _symbols;
 
         /// <summary>
         /// Access a RmtSymbol from the array of symbols.
@@ -64,7 +64,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         {
             get
             {
-                if (_symbols.Count < index + 1)
+                if (index < 0 || index >= _symbols.Count)
                 {
                     throw new IndexOutOfRangeException();
                 }
@@ -75,7 +75,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
             set
             {
-                if (_symbols.Count < index + 1)
+                if (index < 0 || index >= _symbols.Count)
                 {
 #pragma warning disable S112 // OK to throw this here
                     throw new IndexOutOfRangeException();

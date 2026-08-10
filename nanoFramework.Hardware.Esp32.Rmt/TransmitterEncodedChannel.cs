@@ -133,7 +133,8 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// Send a data to RMT module via encoders.
         /// </summary>
         /// <param name="encoderData">
-        /// An array of EncoderData used to provide data and parameters to each encoder step.
+        /// An array of EncoderData used to provide data and parameters to encoders which require data. 
+        /// If encoder step already has data then it will be skipped.
         /// </param>
         /// <param name="waitTxDone">Wait for TX to complete before returning.</param>
         /// <exception cref="ArgumentException" >The number of objects in array must equal number of encoders.</exception>
