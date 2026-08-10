@@ -127,14 +127,14 @@ If no symbols are received then a null is returned.
 ```csharp
 rx.Start();
 
-while(true)
+while(!exit)
 {
     RmtSymbols received = rx.TryGetReceivedSymbols();
     if (received != null)
     {
         // process received symbols
     }
-})
+}
 
 rx.Stop();
 ```
@@ -203,7 +203,7 @@ tx.SendWithEncoders(data);
 ```
 
 The EncoderSettings array defines the Encoders to use on the pipeline.
-With the SendWithEncoders you pass an array of EncoderData[] which defines the 
+With the SendWithEncoders you pass an EncoderData[] which defines the 
 data to be supplied to each encoder defined on the Transmitter channel. 
 
 if the EncoderData is null no data is supplied to that encoder. 

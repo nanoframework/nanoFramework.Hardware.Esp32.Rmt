@@ -35,7 +35,8 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public RmtSymbol Bit1 => _bit1;
 
         /// <summary>
-        /// Gets the length of the byte array.
+        /// Gets the number of bytes handled by the encoder.
+        /// A value of 0 processes all remaining data.
         /// </summary>
         public int ByteLength => _byteLen;
 

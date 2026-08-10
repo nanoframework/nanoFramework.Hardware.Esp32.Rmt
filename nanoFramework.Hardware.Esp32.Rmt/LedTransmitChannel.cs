@@ -145,8 +145,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             // Setup timing symbols for bit 0, bit 1, and reset
             RmtSymbol bit0 = new(T0H, true, T0L, false);
             RmtSymbol bit1 = new(T1H, true, T1L, false);
-            ushort resetHalf = (ushort)(ResetTime / 2);
-            RmtSymbol[] resetSymbols = new[] { new RmtSymbol(resetHalf, false, resetHalf, false) };
+            ushort resetFirst = (ushort)(ResetTime / 2);
+            ushort resetSecond = (ushort)(ResetTime - resetFirst);
+            RmtSymbol[] resetSymbols = new[] { new RmtSymbol(resetFirst, false, resetSecond, false) };
 
             // Configure the encoders: ByteEncoder for the led data, and CopyEncoder for the reset symbol
             ByteEncoderSettings byteEnc = new ByteEncoderSettings(bit0, bit1, true, 0);
@@ -169,7 +170,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         /// <param name="RepeatDataCount">Number of times to output data. 
         /// This can be used to set each LED with same info or repeat pattern along whole string.
         /// </param>
-        /// <param name="waitToComplete">Wait for </param>
+        /// <param name="waitToComplete">Wait for the transmission to complete before returning.</param>
         public void SendLedData(byte[] ledData, int RepeatDataCount = 1, bool waitToComplete = true)
         {
             _transmitChannel.SendWithEncoders(new EncoderData[] { new EncoderData(ledData, RepeatDataCount) }, waitToComplete);
