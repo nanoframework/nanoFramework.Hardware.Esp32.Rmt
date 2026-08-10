@@ -127,6 +127,8 @@ If no symbols are received then a null is returned.
 ```csharp
 rx.Start();
 
+bool exit = false;
+
 while(!exit)
 {
     RmtSymbols received = rx.TryGetReceivedSymbols();

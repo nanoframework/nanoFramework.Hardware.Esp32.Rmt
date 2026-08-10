@@ -89,7 +89,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
                     break;
 
                 // T0L=900ns, T0H=300ns, T1L=300ns, T1H=900ns, Reset=50µs
-                default:
                 case LedType.WS2812:
                     T0L = 9;
                     T0H = 3;
@@ -124,6 +123,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
                     T1H = 6;
                     ResetTime = 800;
                     break;
+
+                default:
+                    throw new ArgumentException();
             }
 
             Initialize(pinNumber, T0L, T0H, T1L, T1H, ResetTime);
