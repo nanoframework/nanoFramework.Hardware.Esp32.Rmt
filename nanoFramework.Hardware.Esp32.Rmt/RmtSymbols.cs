@@ -55,6 +55,17 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         internal ArrayList Symbols => _symbols;
 
         /// <summary>
+        /// Convert the internal list of symbols to an array.
+        /// </summary>
+        /// <returns>An array of RmtSymbol objects.</returns>
+        public RmtSymbol[] ToArray()
+        {
+            RmtSymbol[] array = new RmtSymbol[_symbols.Count];
+            _symbols.CopyTo(array);
+            return array;
+        }
+
+        /// <summary>
         /// Access a RmtSymbol from the array of symbols.
         /// </summary>
         /// <param name="index"></param>
