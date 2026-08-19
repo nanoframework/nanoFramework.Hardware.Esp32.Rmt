@@ -99,14 +99,6 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
                 // T0L= 600ns, T0H=300ns, T1L=300ns, T1H=600ns, Reset=>280µs
                 case LedType.WS2813:
-                    T0L = 6;
-                    T0H = 3;
-                    T1L = 3;
-                    T1H = 6;
-                    ResetTime = 3000;
-                    break;
-
-                // T0L= 600ns, T0H=300ns, T1L=300ns, T1H=600ns, Reset=>280µs
                 case LedType.WS2815:
                     T0L = 6;
                     T0H = 3;

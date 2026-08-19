@@ -14,10 +14,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// </summary>
     public class ByteEncoderSettings : EncoderSettings
     {
-        private RmtSymbol _bit0;
-        private RmtSymbol _bit1;
-        private bool _msbFirst;
-        private int _byteLen;
+        readonly private RmtSymbol _bit0;
+        readonly private RmtSymbol _bit1;
+        readonly private bool _msbFirst;
+        readonly private int _byteLen;
 
         /// <summary>
         /// Returns true if the most significant bit is first.

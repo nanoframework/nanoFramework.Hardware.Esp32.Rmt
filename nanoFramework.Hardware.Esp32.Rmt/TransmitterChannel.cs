@@ -15,7 +15,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// <remarks>
     /// For detailed explanation of ESP32 RMT Module, please check the Espressif official documentation here: https://docs.espressif.com/projects/esp-idf/en/v4.4.3/esp32/api-reference/peripherals/rmt.html
     /// </remarks>
-    public class TransmitterChannel : TransmitterEncodedChannel, IDisposable
+    public class TransmitterChannel : TransmitterEncodedChannel
     {
         #region Constructors
 

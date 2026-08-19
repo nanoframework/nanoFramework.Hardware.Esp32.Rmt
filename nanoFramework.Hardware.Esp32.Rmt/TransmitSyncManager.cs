@@ -33,7 +33,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             Int32[] channelHandles = new Int32[TxChannelArray.Length];
             int index = 0;
 
-            foreach(TransmitterChannel tc in TxChannelArray)
+            foreach(TransmitterEncodedChannel tc in TxChannelArray)
             {
                 channelHandles[index++] = tc.Handle;
             }

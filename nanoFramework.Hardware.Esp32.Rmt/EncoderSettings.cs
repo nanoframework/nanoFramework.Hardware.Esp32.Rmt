@@ -36,9 +36,9 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// </summary>
     public abstract class EncoderSettings
     {
-        private EncoderType _encoderType = EncoderType.None;
+        readonly private EncoderType _encoderType = EncoderType.None;
 
-        internal EncoderSettings(EncoderType t)
+        private protected EncoderSettings(EncoderType t)
         {
             _encoderType = t;
         }

@@ -73,7 +73,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
 
             for (var i = 0; i < RmtSymbolsArrayList.Count; i++)
             {
-                var command = (RmtSymbol)RmtSymbolsArrayList[i];
+                var command = RmtSymbolsArrayList[i];
                 var highByte1 = (byte)(command.Duration0 >> 8);
                 var lowByte1 = (byte)(command.Duration0 & 0xFF);
                 var highByte2 = (byte)(command.Duration1 >> 8);
@@ -100,7 +100,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
                 if ((cmd as RmtSymbol).Duration0 <= 255)
                 {
                     binaryCommands[0 + i] = (byte)(cmd as RmtSymbol).Duration0;
-                    binaryCommands[1 + i] = (byte)((cmd as RmtSymbol).Level0 == true ? 128 : 0);
+                    binaryCommands[1 + i] = (byte)((cmd as RmtSymbol).Level0 ? 128 : 0);
                 }
                 else
                 {
