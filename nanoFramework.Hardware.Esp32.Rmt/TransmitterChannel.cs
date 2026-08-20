@@ -17,6 +17,8 @@ namespace nanoFramework.Hardware.Esp32.Rmt
     /// </remarks>
     public class TransmitterChannel : TransmitterEncodedChannel
     {
+        private bool _disposed;
+
         #region Constructors
 
         /// <summary>
@@ -61,9 +63,21 @@ namespace nanoFramework.Hardware.Esp32.Rmt
 
             base.NativeTxWriteSymbolItems(data, waitTxDone);
         }
+
+        /// <summary>
+        /// Dispose the channel and release resources.
+        /// </summary>
+        /// <param name="disposing">True if called from Dispose, false if called from finalizer.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+            
+            _disposed = true;
+
+            base.Dispose(disposing);
+        }
+
         #endregion Methods
-
-#pragma warning restore S4200 // Native methods should be wrapped
-
     }
 }

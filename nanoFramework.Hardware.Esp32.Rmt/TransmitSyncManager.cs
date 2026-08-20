@@ -60,12 +60,10 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects)
+                    _txChannelArray = null;
                 }
 
                 NativeDisposeSyncManager();
-
-                _txChannelArray = null;
 
                 disposedValue = true;
             }
