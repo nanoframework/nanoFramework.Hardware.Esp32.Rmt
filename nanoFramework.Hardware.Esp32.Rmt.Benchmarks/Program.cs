@@ -19,7 +19,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt.Benchmarks
             Debugger.Break();
             return;
 #endif
-
+            Console.WriteLine("Benchmarks running.");
             BenchmarkRunner.RunClass(typeof(SerializeCommandsBenchmark));
             Thread.Sleep(Timeout.Infinite);
         }
