@@ -3,13 +3,15 @@
 // See LICENSE file in the project root for full license information.
 //
 
+// Ignore Spelling: nano Rmt Espressif
+
 using System;
 using System.Runtime.CompilerServices;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
     /// <summary>
-    /// A class that can be used to Receive RMT items on ESP32
+    /// A class used to Receive RMT symbols on ESP32.
     /// </summary>
     /// <remarks>
     /// For detailed explanation of ESP32 RMT Module, please check the Espressif official documentation here: https://docs.espressif.com/projects/esp-idf/en/v4.4.3/esp32/api-reference/peripherals/rmt.html
@@ -19,59 +21,34 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly ReceiverChannelSettings _receiverChannelSettings;
 
-        /// <inheritdoc/>
-        public override ChannelMode Mode => ChannelMode.Receive;
-
         /// <summary>
-        /// Gets or sets the idle threshold after which the receiver will go into idle mode 
-        /// and <see cref="RmtCommand"/>s are copied into the ring buffer and availble to your code. This is measured by number of clock ticks (after applying the clock divider).
+        /// Gets or sets the idle threshold after which the receiver will go into idle mode and the receive will complete.
         /// </summary>
         /// <remarks>
-        /// The receive process finishes(goes idle) when no edges have been detected for the specified <see cref="IdleThreshold"/> clock cycles.
-        /// Supported value range between 1 and 65535 (0xFFFF).
-        /// The RMT Module's clock ticks at a rate of 80Mhz. If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 for example, then a clock tick is equal to 1 microsecond (80Mhz / 80 = 1Mhz = 1us).
-        /// So setting this property to a value of 200 means the threshold is 200us.
+        /// The receive process finishes(goes idle) when no edges have been detected for the specified <see cref="IdleThreshold"/> nanoseconds.
+        /// So setting this property to a value of 200000 means the threshold is 200us.
         /// </remarks>
-        public ushort IdleThreshold
+        public UInt32 IdleThreshold
         {
             get => _receiverChannelSettings.IdleThreshold;
             set
             {
-                NativeRxSetIdleThresold(value);
                 _receiverChannelSettings.IdleThreshold = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if the the filter is enabled. 
-        /// If enabled, the receiver will ignore pulses with widths (in clock ticks) shorter than specified in <see cref="FilterThreshold"/>.
-        /// </summary>
-        public bool EnableFilter
-        {
-            get => _receiverChannelSettings.EnableFilter;
-            set
-            {
-                NativeRxEnableFilter(value, _receiverChannelSettings.FilterThreshold);
-                _receiverChannelSettings.EnableFilter = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the threshold, in clock ticks, of the filter.
-        /// when <see cref="EnableFilter"/> is set to <see langword="true"/> It will ignore pulses shorter than the specified threshold.
-        /// The acceptable range of values is 0 to 255 clock ticks.
+        /// Gets or sets the threshold, in nanoseconds of the filter.
+        /// It will ignore pulses shorter than the specified threshold.
         /// </summary>
         /// <remarks>
-        /// Example:
-        /// If the <see cref="RmtChannelSettings.ClockDivider"/> is set to 80 then the clock (80Mhz) will tick at a rate of 1Mhz (80Mhz / 80 = 1Mhz) making each clock tick equal to 1 microsecond.
-        /// Therefore, setting <see cref="FilterThreshold"/> to a value like 100 will cause the receiver channel to ignore any pulses that are shorter than 100 microseconds.
+        /// Setting <see cref="FilterThreshold"/> to a value like 100000 will cause the receiver channel to ignore any pulses that are shorter than 100 microseconds.
         /// </remarks>
-        public byte FilterThreshold
+        public UInt32 FilterThreshold
         {
             get => _receiverChannelSettings.FilterThreshold;
             set
             {
-                NativeRxEnableFilter(_receiverChannelSettings.EnableFilter, value);
                 _receiverChannelSettings.FilterThreshold = value;
             }
         }
@@ -84,36 +61,60 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         public ReceiverChannel(ReceiverChannelSettings settings) : base(settings)
         {
             _receiverChannelSettings = settings ?? throw new ArgumentNullException();
-            _settings.Channel = NativeRxInit();
+            _settings.Handle = NativeRxInit();
         }
 
         /// <summary>
-        /// Start receiving data on channel.
+        /// Starts continuous non-blocking receive mode.
+        /// Symbols can be retrieved using <see cref="TryGetReceivedSymbols"/>.
+        /// Throws <see cref="InvalidOperationException"/> if blocking receive is active.
         /// </summary>
-        /// <param name="clearBuffer">Clears buffer before starting.</param>
-        public void Start(bool clearBuffer)
+        public void Start()
         {
-            NativeRxStart(clearBuffer);
+            NativeStartReceive();
         }
 
         /// <summary>
-        /// Stop receiving data on channel.
+        /// Stops continuous non-blocking receive mode.
+        /// Throws <see cref="InvalidOperationException"/> if continuous mode is not active.
         /// </summary>
         public void Stop()
         {
-            NativeRxStop();
+            NativeStopReceive();
         }
 
         /// <summary>
-        /// Get all RmtCommand items available.
+        /// Attempts to retrieve received RMT symbols without blocking.
+        /// Returns <c>null</c> if no symbols are available.
+        /// Throws <see cref="InvalidOperationException"/> if Start is not active or Receive is active. 
         /// </summary>
-        /// <remarks>If no signal received in time-out period then empty array will be returned.</remarks>
-        /// <returns>Return array of RMTCommand. <br/>
-        /// If no signal received in time-out period then empty array will be returned.
-        /// </returns>
-        public RmtCommand[] GetAllItems()
+        /// <returns>A <see cref="RmtSymbols"/> instance containing received symbols, or <c>null</c>.</returns>
+        public RmtSymbols TryGetReceivedSymbols()
         {
-            return NativeRxGetAllItems();
+            var arr = NativeTryGetReceived();
+            if (arr == null || arr.Length == 0)
+            {
+                return null;
+            }
+
+            return new RmtSymbols(arr);
+        }
+
+        /// <summary>
+        /// Performs a blocking receive operation.
+        /// This call waits until symbols are received or a timeout occurs.
+        /// Throws <see cref="InvalidOperationException"/> if StartReceive is active.
+        /// </summary>
+        /// <returns>A <see cref="RmtSymbols"/> instance containing received symbols, or <c>null</c>.
+        /// </returns>
+        public RmtSymbols Receive()
+        {
+            RmtSymbol[] symbols = NativeReceive();
+            if (symbols == null || symbols.Length == 0)
+            {
+                return null;
+            }
+            return new RmtSymbols(symbols);
         }
 
         #region Destructor
@@ -141,25 +142,19 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         private extern int NativeRxInit();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeRxStart(bool clearBuffer);
+        private extern RmtSymbol[] NativeReceive();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeRxStop();
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern int NativeRxGetRingBufferCount();
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern RmtCommand[] NativeRxGetAllItems();
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeRxEnableFilter(bool enable, byte threshold);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeRxSetIdleThresold(ushort threshold);
+        private extern RmtSymbol[] NativeTryGetReceived();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeRxDispose();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void NativeStartReceive();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void NativeStopReceive();
 
         #endregion  Native calls
     }

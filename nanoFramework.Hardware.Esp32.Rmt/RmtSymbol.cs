@@ -3,58 +3,60 @@
 // See LICENSE file in the project root for full license information.
 //
 
+// Ignore Spelling: nano Rmt
+
 using System;
 
 namespace nanoFramework.Hardware.Esp32.Rmt
 {
     /// <summary>
-    /// Class to encapsulate a RMT item
+    /// Class to encapsulate a RMT Symbol. 
+    /// A RMT symbol is a pair of levels and durations that represent a single bit of data.
     /// </summary>
-    public class RmtCommand
+    public class RmtSymbol
     {
         /// <summary>
-        /// Command level 1
+        /// Symbol level 0.
         /// </summary>
         private bool _level0 = true;
 
         /// <summary>
-        /// Command level 2
+        /// Symbol level 1.
         /// </summary>
         private bool _level1 = false;
 
         /// <summary>
-        /// Command duration 1
+        /// Symbol duration 0.
         /// </summary>
         private ushort _duration0 = 1;
 
         /// <summary>
-        /// Command duration 2
+        /// Symbol duration 1.
         /// </summary>
         private ushort _duration1 = 0;
 
         /// <summary>
-        /// Max value of rmt_item32_t::durationX (15 bit unsigned value)
+        /// Max value of rmt_item32_t::durationX (15 bit unsigned value).
         /// </summary>
         private const ushort MaxDuration = 32767;
 
         /// <summary>
-        /// Create new rmt command
+        /// Create new rmt Symbol.
         /// </summary>
-        /// <param name="duration1"></param>
-        /// <param name="level1"></param>
-        /// <param name="duration2"></param>
-        /// <param name="level2"></param>
-        public RmtCommand(ushort duration1, bool level1, ushort duration2, bool level2)
+        /// <param name="duration0">Duration of the first level, in RMT channel ticks. Maximum value is 32767.</param>
+        /// <param name="level0">Value of the first level. <see langword="true"/> = HIGH.</param>
+        /// <param name="duration1">Duration of the second level, in RMT channel ticks. Maximum value is 32767.</param>
+        /// <param name="level1">Value of the second level. <see langword="true"/> = HIGH.</param>
+        public RmtSymbol(ushort duration0, bool level0, ushort duration1, bool level1)
         {
-            Duration0 = duration1;
-            Duration1 = duration2;
-            _level0 = level1;
-            _level1 = level2;
+            Duration0 = duration0;
+            Duration1 = duration1;
+            _level0 = level0;
+            _level1 = level1;
         }
 
-
         /// <summary>
-        /// Level1 duration in RMT channel ticks
+        /// Level0 duration in RMT channel ticks
         /// </summary>
         public ushort Duration0
         {
@@ -67,7 +69,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Level2 duration in RMT channel ticks
+        /// Level1 duration in RMT channel ticks
         /// </summary>
         public ushort Duration1
         {
@@ -80,7 +82,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Level 0 value high/low
+        /// Level 0 value high/low.
         /// </summary>
         public bool Level0
         {
@@ -92,7 +94,7 @@ namespace nanoFramework.Hardware.Esp32.Rmt
         }
 
         /// <summary>
-        /// Level 1 value high/low
+        /// Level 1 value high/low.
         /// </summary>
         public bool Level1
         {
@@ -103,9 +105,8 @@ namespace nanoFramework.Hardware.Esp32.Rmt
             }
         }
 
-
         /// <summary>
-        /// Check if the given duration exceeds max duration, Maximum supported duration is 32768
+        /// Check if the given duration exceeds max duration, Maximum supported duration is 32767.
         /// </summary>
         /// <param name="duration"></param>
         private static void CheckDuration(ushort duration)
